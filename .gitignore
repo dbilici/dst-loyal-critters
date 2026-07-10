@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+
+*.log
+*.tmp
+*.bak
+
+# Local packaging/export artifacts
+dist/
+build/
+*.zip
+
