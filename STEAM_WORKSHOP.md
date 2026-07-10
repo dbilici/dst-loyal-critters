@@ -22,7 +22,8 @@ Features:
 
 Version: 1.7.0
 Author: k0za1ak
-Workshop ID: TBD
+Workshop ID: 3747661184
+Workshop URL: https://steamcommunity.com/sharedfiles/filedetails/?id=3747661184
 
 Source code:
 https://github.com/dbilici/dst-loyal-critters

@@ -5,8 +5,8 @@ Friends-only Don't Starve Together mod that modernizes critter benefits so they 
 ## Status
 
 - Steam Workshop visibility: Friends Only
-- Workshop ID: TBD
-- Workshop URL: TBD
+- Workshop ID: `3747661184`
+- Workshop URL: https://steamcommunity.com/sharedfiles/filedetails/?id=3747661184
 - Steam title: `Loyal Critters`
 - Local source package: `Better_Pet`
 - Mod name: `Loyal Critters`
