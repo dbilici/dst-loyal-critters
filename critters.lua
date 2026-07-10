@@ -210,13 +210,13 @@ end
 
 -------------------------------------------------------------------------------
 -- Feed buff manager: the puppy damage, kitten speed and perdling hunger buffs
--- apply only to the owner, and only while the pet is satiated ("tok"). This runs
+-- apply only to the owner, and only while the pet is fed/satiated. This runs
 -- periodically instead of using a fixed timer, and is cleaned up immediately
 -- when the pet is abandoned/removed (see the onremove listener in fn).
 
-local SATIATED_MIN_PERISH = HUNGRY_PERISH_PERCENT -- perishable percent > 0.5 = "tok"
+local SATIATED_MIN_PERISH = HUNGRY_PERISH_PERCENT -- perishable percent > 0.5 = fed/satiated
 
--- Owner-only feed buffs keyed by pet prefab. Add new "while tok" pets here.
+-- Owner-only feed buffs keyed by pet prefab. Add new "while fed" pets here.
 local FEED_BUFFS = {
     critter_puppy    = { apply = ApplyPuppyDamageBuff,    clear = ClearPuppyDamageBuff },
     critter_kitten   = { apply = ApplyKittenSpeedBuff,    clear = ClearKittenSpeedBuff },

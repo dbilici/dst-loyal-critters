@@ -7,11 +7,12 @@
 - Cleaned local duplicate files from the repository package.
 - Added repository documentation and Workshop page copy.
 - Renamed the repository package to `dst-loyal-critters`.
+- Reworded fed-state text for Steam-facing metadata and debug output.
 
 ## 1.6.2 - Legacy maintenance update
 
 ## Changed
-- Perdling reworked. It no longer drops a random redpouch when fed. Instead, while the Perdling is satiated ("tok"), the owner's hunger drains 20% slower. Owner-only, cleared automatically when the pet gets too hungry or is abandoned — same pattern as the puppy/kitten buffs.
+- Perdling reworked. It no longer drops a random redpouch when fed. Instead, while the Perdling is fed, the owner's hunger drains 20% slower. Owner-only, cleared automatically when the pet gets too hungry or is abandoned — same pattern as the puppy/kitten buffs.
 - Lamb storage is now **owner-only**: only the player who owns the Lamb can open its container. Ownership is matched by userid so it keeps working across reconnects. (If a Lamb somehow has no owner it stays openable rather than locking forever.)
 - Items stored inside the Lamb now spoil **1.5x faster** (via a preserver component on the container).
 - Peeper vision bonus is now a fixed standard value (+12 max zoom-out). The `Peeper Vision Bonus` mod-config option was removed; the config screen now only shows Debug Mode.
@@ -24,7 +25,7 @@
 ## 1.6.0 - Legacy maintenance update
 
 ## Changed
-- Reworked how every pet benefit is granted. All benefits now go to the pet's **owner only** and are active **only while the pet is satiated ("tok")**. Feed a pet to keep its benefit going. Proximity/radius no longer matters — if the pet is satiated, the owner gets the benefit.
+- Reworked how every pet benefit is granted. All benefits now go to the pet's **owner only** and are active **only while the pet is fed**. Feed a pet to keep its benefit going. Proximity/radius no longer matters — if the pet is fed, the owner gets the benefit.
 - Puppy: the 1.2x damage buff is no longer a fixed 1-day timer. It now applies to the owner while the puppy is satiated, and is removed automatically when the puppy gets too hungry.
 - Kitten: the 1.2x speed buff works the same way — active on the owner while the kitten is satiated.
 - Glomling: sanity aura is now owner-only and full strength regardless of distance (the distance falloff was removed). It is active while the Glomling is satiated.
@@ -44,7 +45,7 @@
 ## Notes
 - When Peeper vision turns on, the camera now automatically zooms out toward the newly unlocked range (about 70% of it, mirroring the Horizon Expandinator's behavior). This happens smoothly and only pushes the view outward — if you had already zoomed out further yourself, it leaves your view alone. When the Peeper gets too hungry, the extra range is removed and the camera smoothly eases back in.
 - The camera effect still tries not to fight larger dedicated camera/zoom mods.
-- Debug Mode (`c_betterpet_status`) now reports Peeper vision state, camera max distance, and each owned pet's hunger percent and satiated ("tok") state.
+- Debug Mode (`c_betterpet_status`) now reports Peeper vision state, camera max distance, and each owned pet's hunger percent and fed state.
 
 ---
 

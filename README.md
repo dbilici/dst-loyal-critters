@@ -1,6 +1,6 @@
 # Loyal Critters
 
-Friends-only Don't Starve Together mod that modernizes pet benefits so they apply only to each pet's owner while the pet is satiated.
+Friends-only Don't Starve Together mod that modernizes critter benefits so they apply only to each pet's owner while the pet is fed.
 
 ## Status
 
@@ -19,13 +19,13 @@ Friends-only Don't Starve Together mod that modernizes pet benefits so they appl
 ## Features
 
 - Owner-only pet benefits; pets no longer buff nearby teammates.
-- Benefits stay active only while the pet is satiated.
+- Benefits stay active only while the pet is fed.
 - Puppy gives owner damage support.
 - Kitten gives owner speed support.
 - Lamb provides owner-only 2x2 storage with faster spoilage.
-- Perdling slows the owner's hunger drain while satiated.
+- Perdling slows the owner's hunger drain while fed.
 - Glomling provides owner-only sanity aura.
-- Friendly Peeper increases the owner's max camera zoom-out while satiated.
+- Friendly Peeper increases the owner's max camera zoom-out while fed.
 - Dragonling and Mothling provide themed light only.
 - Debug Mode helps test owner support and Peeper vision state.
 

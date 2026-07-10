@@ -55,7 +55,7 @@ local function BetterPetDebugLeader(pet, message)
 end
 
 local BALANCE = {
-    -- A pet only helps its owner, and only while it is satiated ("tok").
+    -- A pet only helps its owner, and only while it is fed/satiated.
     -- Satiation is read from the critter's perishable hunger meter.
     pet_satiated_min_perish = 0.5,
 
@@ -163,7 +163,7 @@ end
 -- Ownership + satiation helpers
 --
 -- Design: a pet only benefits its own owner, and only while the pet is
--- satiated ("tok"). Distance/radius no longer matter. Satiation is read from
+-- fed/satiated. Distance/radius no longer matter. Satiation is read from
 -- the critter's perishable hunger meter (fed = full, then slowly empties).
 
 local function GetPetOwner(pet)
@@ -519,7 +519,7 @@ local function ConfigurePeeperVision(player)
 end
 
 -- Maps each pet prefab to the benefit it provides, and whether that benefit is
--- gated on the pet being satiated ("tok"). Light/storage are always-on.
+-- gated on the pet being fed/satiated. Light/storage are always-on.
 local PET_BENEFITS = {
     critter_glomling      = { label = "sanity aura",      gated = true },
     critter_puppy         = { label = "+damage",          gated = true },
@@ -567,7 +567,7 @@ local function BetterPetDebugStatus(player)
 
                 local perish = (pet.components ~= nil and pet.components.perishable ~= nil)
                     and pet.components.perishable:GetPercent() or nil
-                local tok = perish ~= nil and perish > satiated_min
+                local fed = perish ~= nil and perish > satiated_min
                 local perish_txt = perish ~= nil and string.format("%.0f%%", perish * 100) or "n/a"
 
                 local info = PET_BENEFITS[pet.prefab]
@@ -576,18 +576,18 @@ local function BetterPetDebugStatus(player)
 
                 local state
                 if gated then
-                    state = tok and (label .. " ACTIVE") or (label .. " off (needs feeding)")
+                    state = fed and (label .. " ACTIVE") or (label .. " off (needs feeding)")
                 else
                     state = label .. " (always on)"
                 end
 
                 print("[Loyal Critters Debug]   " .. pet.prefab
                     .. ": hunger=" .. perish_txt
-                    .. " tok=" .. tostring(tok)
+                    .. " fed=" .. tostring(fed)
                     .. " -> " .. state)
 
                 local short = string.gsub(pet.prefab, "^critter_", "")
-                table.insert(summary_parts, short .. "(" .. (tok and "tok" or "hungry") .. ")")
+                table.insert(summary_parts, short .. "(" .. (fed and "fed" or "hungry") .. ")")
             end
         end
 

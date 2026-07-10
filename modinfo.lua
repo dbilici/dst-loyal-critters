@@ -1,14 +1,14 @@
 name = "Loyal Critters"
 description = "Modernized loyal critter support for Don't Starve Together.\n\n"..
-"Every pet benefit now goes to its OWNER ONLY, and stays active only while the pet is satiated (\"tok\"). Feed a pet to keep the benefit going; distance no longer matters.\n\n"..
+"Every pet benefit now goes to its OWNER ONLY, and stays active only while the pet is fed and satiated. Feed a pet to keep the benefit going; distance no longer matters.\n\n"..
 "Changes:\n"..
 "- Added Mothling and Friendly Peeper support.\n"..
-"- Puppy: 1.2x damage buff to the owner while the puppy is satiated (modern damage modifiers).\n"..
-"- Kitten: 1.2x speed buff to the owner while the kitten is satiated (modern speed modifiers).\n"..
+"- Puppy: 1.2x damage buff to the owner while the puppy is fed.\n"..
+"- Kitten: 1.2x speed buff to the owner while the kitten is fed.\n"..
 "- Lamb: 2x2 mini chest storage; only the owner can open it, and items inside spoil 1.5x faster.\n"..
-"- Perdling: owner's hunger drains 20% slower while it is satiated (replaces the old redpouch drop).\n"..
-"- Glomling: sanity aura to the owner while satiated, at full strength regardless of distance.\n"..
-"- Friendly Peeper: Horizon Expandinator-style vision support. Increases the owner's maximum zoom-out while the Peeper is satiated. Fixed the jarring camera-angle jump.\n"..
+"- Perdling: owner's hunger drains 20% slower while it is fed (replaces the old redpouch drop).\n"..
+"- Glomling: sanity aura to the owner while fed, at full strength regardless of distance.\n"..
+"- Friendly Peeper: Horizon Expandinator-style vision support. Increases the owner's maximum zoom-out while the Peeper is fed. Fixed the jarring camera-angle jump.\n"..
 "- Dragonling and Mothling give ONLY their themed light (no temperature effects). Light pets follow closer so their light is useful.\n"..
 "- Pets no longer affect other players in any way. Teammate/fed-team support has been removed.\n"..
 "- Optional Debug Mode helps test owner support and Peeper vision state."
