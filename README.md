@@ -1,4 +1,4 @@
-# Better Pet
+# Loyal Critters
 
 Friends-only Don't Starve Together mod that modernizes pet benefits so they apply only to each pet's owner while the pet is satiated.
 
@@ -7,13 +7,13 @@ Friends-only Don't Starve Together mod that modernizes pet benefits so they appl
 - Steam Workshop visibility: Friends Only
 - Workshop ID: TBD
 - Workshop URL: TBD
-- Steam title: `Better Pet`
+- Steam title: `Loyal Critters`
 - Local source package: `Better_Pet`
-- Mod name: `Better Pet`
+- Mod name: `Loyal Critters`
 - Author: `k0za1ak`
 - Original author credit: `宵征`
-- Source repository: https://github.com/dbilici/dst-better-pet
-- Repository folder: `dst-better-pet`
+- Source repository: https://github.com/dbilici/dst-loyal-critters
+- Repository folder: `dst-loyal-critters`
 - Version: `1.7.0`
 
 ## Features
@@ -51,4 +51,3 @@ Common macOS location:
 - Keep Workshop metadata in this README.
 - Keep the Steam Workshop page text in `STEAM_WORKSHOP.md`.
 - Tag GitHub releases when publishing Workshop updates.
-

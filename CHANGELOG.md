@@ -2,12 +2,13 @@
 
 ## 1.7.0 - Repository standardization
 
-- Renamed the Steam-visible mod title to `Better Pet`.
+- Renamed the Steam-visible mod title to `Loyal Critters`.
 - Updated Steam-visible author metadata to `k0za1ak`.
 - Cleaned local duplicate files from the repository package.
 - Added repository documentation and Workshop page copy.
+- Renamed the repository package to `dst-loyal-critters`.
 
-## 1.6.2 - Better Pet Maintenance Update
+## 1.6.2 - Legacy maintenance update
 
 ## Changed
 - Perdling reworked. It no longer drops a random redpouch when fed. Instead, while the Perdling is satiated ("tok"), the owner's hunger drains 20% slower. Owner-only, cleared automatically when the pet gets too hungry or is abandoned — same pattern as the puppy/kitten buffs.
@@ -20,7 +21,7 @@
 
 ---
 
-## 1.6.0 - Better Pet Maintenance Update
+## 1.6.0 - Legacy maintenance update
 
 ## Changed
 - Reworked how every pet benefit is granted. All benefits now go to the pet's **owner only** and are active **only while the pet is satiated ("tok")**. Feed a pet to keep its benefit going. Proximity/radius no longer matters — if the pet is satiated, the owner gets the benefit.
@@ -47,7 +48,7 @@
 
 ---
 
-## 1.4.0 - Better Pet Maintenance Update
+## 1.4.0 - Legacy maintenance update
 
 ## Added
 - Added `Peeper Vision Bonus` mod configuration:
@@ -71,4 +72,4 @@
 
 ## Notes
 - The Peeper camera effect increases maximum zoom-out; the player may still need to scroll the camera outward to use the extra range.
-- The camera effect tries not to fight larger dedicated camera/zoom mods. If another mod already gives a larger max zoom-out, Better Pet will avoid lowering it when Peeper support ends.
+- The camera effect tries not to fight larger dedicated camera/zoom mods. If another mod already gives a larger max zoom-out, Loyal Critters will avoid lowering it when Peeper support ends.

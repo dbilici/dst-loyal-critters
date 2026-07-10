@@ -2,11 +2,11 @@
 
 ## Title
 
-Better Pet
+Loyal Critters
 
 ## Description
 
-Modernized Better Pet update for Don't Starve Together.
+Modernized loyal critter support for Don't Starve Together.
 
 Every pet benefit now goes to its owner only, and stays active only while the pet is satiated. Feed a pet to keep the benefit going; distance no longer matters.
 
@@ -25,5 +25,4 @@ Author: k0za1ak
 Workshop ID: TBD
 
 Source code:
-https://github.com/dbilici/dst-better-pet
-
+https://github.com/dbilici/dst-loyal-critters

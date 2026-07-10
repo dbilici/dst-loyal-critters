@@ -28,7 +28,7 @@ local DEBUG_ANNOUNCE = DEBUG_MODE == "announce"
 
 local function BetterPetDebugLog(message)
     if DEBUG_LOG then
-        print("[Better Pet Debug] " .. tostring(message))
+        print("[Loyal Critters Debug] " .. tostring(message))
     end
 end
 
@@ -38,7 +38,7 @@ local function BetterPetDebugSay(player, message)
         and player:IsValid()
         and player.components ~= nil
         and player.components.talker ~= nil then
-        player.components.talker:Say("[Better Pet] " .. tostring(message))
+        player.components.talker:Say("[Loyal Critters] " .. tostring(message))
     end
 end
 
@@ -128,16 +128,16 @@ local function GetBalancedCritterBrain()
         brain_load_attempted = true
 
         if pcall ~= nil then
-            local ok, brain = pcall(require, "brains/betterpet_crittersbrain")
+            local ok, brain = pcall(require, "brains/loyalcritters_crittersbrain")
             if ok then
                 balanced_critter_brain = brain
             else
-                print("[Better Pet] Could not load balanced critter brain: " .. tostring(brain))
+                print("[Loyal Critters] Could not load balanced critter brain: " .. tostring(brain))
             end
         else
             -- DST normally exposes pcall through GLOBAL, but keep this fallback so the
             -- failure mode is a clear require error instead of a nil global call.
-            balanced_critter_brain = require("brains/betterpet_crittersbrain")
+            balanced_critter_brain = require("brains/loyalcritters_crittersbrain")
         end
     end
 
@@ -533,12 +533,12 @@ local PET_BENEFITS = {
 
 local function BetterPetDebugStatus(player)
     if not DEBUG_LOG and not DEBUG_ANNOUNCE then
-        print("[Better Pet Debug] Debug Mode is off. Enable it in mod configuration for live test messages.")
+        print("[Loyal Critters Debug] Debug Mode is off. Enable it in mod configuration for live test messages.")
     end
 
     player = player or (GLOBAL.AllPlayers ~= nil and GLOBAL.AllPlayers[1] or nil)
     if player == nil then
-        print("[Better Pet Debug] No player found for status check.")
+        print("[Loyal Critters Debug] No player found for status check.")
         return
     end
 
@@ -550,7 +550,7 @@ local function BetterPetDebugStatus(player)
     if camera ~= nil and camera.maxdist ~= nil and string ~= nil and string.format ~= nil then
         header = header .. ", camera maxdist=" .. string.format("%.2f", camera.maxdist)
     end
-    print("[Better Pet Debug] " .. header)
+    print("[Loyal Critters Debug] " .. header)
 
     -- Per-pet detail. Benefits are owner-only now, so we look at THIS player's
     -- own pets via petleash rather than scanning nearby critters.
@@ -558,7 +558,7 @@ local function BetterPetDebugStatus(player)
     local summary_parts = {}
 
     if petleash == nil then
-        print("[Better Pet Debug]   (no petleash on this player)")
+        print("[Loyal Critters Debug]   (no petleash on this player)")
     else
         local owns_any = false
         for pet in pairs(petleash:GetPets()) do
@@ -581,7 +581,7 @@ local function BetterPetDebugStatus(player)
                     state = label .. " (always on)"
                 end
 
-                print("[Better Pet Debug]   " .. pet.prefab
+                print("[Loyal Critters Debug]   " .. pet.prefab
                     .. ": hunger=" .. perish_txt
                     .. " tok=" .. tostring(tok)
                     .. " -> " .. state)
@@ -592,7 +592,7 @@ local function BetterPetDebugStatus(player)
         end
 
         if not owns_any then
-            print("[Better Pet Debug]   (this player owns no pets)")
+            print("[Loyal Critters Debug]   (this player owns no pets)")
             table.insert(summary_parts, "no pets")
         end
     end
@@ -607,5 +607,6 @@ end
 
 GLOBAL.BetterPetDebugStatus = BetterPetDebugStatus
 GLOBAL.c_betterpet_status = BetterPetDebugStatus
+GLOBAL.c_loyalcritters_status = BetterPetDebugStatus
 
 AddPlayerPostInit(ConfigurePeeperVision)

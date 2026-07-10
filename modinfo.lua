@@ -1,5 +1,5 @@
-name = "Better Pet"
-description = "Modernized Better Pet update for Don't Starve Together.\n\n"..
+name = "Loyal Critters"
+description = "Modernized loyal critter support for Don't Starve Together.\n\n"..
 "Every pet benefit now goes to its OWNER ONLY, and stays active only while the pet is satiated (\"tok\"). Feed a pet to keep the benefit going; distance no longer matters.\n\n"..
 "Changes:\n"..
 "- Added Mothling and Friendly Peeper support.\n"..
@@ -29,11 +29,11 @@ configuration_options =
     {
         name = "betterpet_debug",
         label = "Debug Mode",
-        hover = "Testing helper for Better Pet. Shows owner support and Peeper vision state changes.",
+        hover = "Testing helper for Loyal Critters. Shows owner support and Peeper vision state changes.",
         options =
         {
             { description = "Off", data = "off", hover = "No debug output." },
-            { description = "Log only", data = "log", hover = "Print Better Pet debug messages to the server log." },
+            { description = "Log only", data = "log", hover = "Print Loyal Critters debug messages to the server log." },
             { description = "Chat + log", data = "announce", hover = "Print to log and show short in-game test messages." },
         },
         default = "off",
