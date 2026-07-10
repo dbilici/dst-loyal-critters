@@ -13,7 +13,7 @@ description = "Modernized loyal critter support for Don't Starve Together.\n\n".
 "- Pets no longer affect other players in any way. Teammate/fed-team support has been removed.\n"..
 "- Optional Debug Mode helps test owner support and Peeper vision state."
 author = "k0za1ak"
-version = "1.7.0"
+version = "1.7.1"
 forumthread = ""
 api_version = 10
 dst_compatible = true

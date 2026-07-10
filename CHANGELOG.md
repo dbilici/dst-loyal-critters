@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.1 - Publish metadata refresh
+
+- Reworded fed-state text for Steam-facing metadata and debug output.
+- Added Steam Workshop ID and URL.
+- Updated the preview image for the `Loyal Critters` title.
+
 ## 1.7.0 - Repository standardization
 
 - Renamed the Steam-visible mod title to `Loyal Critters`.
@@ -7,7 +13,6 @@
 - Cleaned local duplicate files from the repository package.
 - Added repository documentation and Workshop page copy.
 - Renamed the repository package to `dst-loyal-critters`.
-- Reworded fed-state text for Steam-facing metadata and debug output.
 
 ## 1.6.2 - Legacy maintenance update
 

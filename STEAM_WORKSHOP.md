@@ -20,7 +20,7 @@ Features:
 - Dragonling and Mothling provide themed light only.
 - Pets no longer affect other players.
 
-Version: 1.7.0
+Version: 1.7.1
 Author: k0za1ak
 Workshop ID: 3747661184
 Workshop URL: https://steamcommunity.com/sharedfiles/filedetails/?id=3747661184

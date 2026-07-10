@@ -14,7 +14,7 @@ Friends-only Don't Starve Together mod that modernizes critter benefits so they 
 - Original author credit: `宵征`
 - Source repository: https://github.com/dbilici/dst-loyal-critters
 - Repository folder: `dst-loyal-critters`
-- Version: `1.7.0`
+- Version: `1.7.1`
 
 ## Features
 
