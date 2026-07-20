@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lua 5.1 checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install Lua 5.1
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes lua5.1
+
+      - name: Check Lua syntax
+        run: |
+          find . -name '*.lua' -not -path './.git/*' -print0 \
+            | xargs -0 -n1 luac5.1 -p
+
+      - name: Check release metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          version="$(sed -n \
+            -e 's/^[[:space:]]*version[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' \
+            -e "s/^[[:space:]]*version[[:space:]]*=[[:space:]]*'\([^']*\)'.*/\1/p" \
+            modinfo.lua | head -n 1)"
+
+          test -n "$version"
+          grep -F "$version" CHANGELOG.md
+
+          if [[ -f STEAM_WORKSHOP.md ]]; then
+            grep -F "$version" STEAM_WORKSHOP.md
+          fi
