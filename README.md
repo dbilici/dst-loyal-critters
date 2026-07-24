@@ -12,21 +12,24 @@ Friends-only Don't Starve Together mod that modernizes critter benefits so they 
 - Mod name: `Loyal Critters`
 - Author: `k0za1ak`
 - Original author credit: `宵征`
+- Original Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=849986686
 - Source repository: https://github.com/dbilici/dst-loyal-critters
 - Repository folder: `dst-loyal-critters`
-- Version: `1.7.1`
+- Version: `1.7.2`
 
 ## Features
 
 - Owner-only pet benefits; pets no longer buff nearby teammates.
-- Benefits stay active only while the pet is fed.
+- Puppy, Kitten, Perdling, Glomling, and Friendly Peeper support stays active
+  only while the corresponding pet is fed.
 - Puppy gives owner damage support.
 - Kitten gives owner speed support.
 - Lamb provides owner-only 2x2 storage with faster spoilage.
 - Perdling slows the owner's hunger drain while fed.
 - Glomling provides owner-only sanity aura.
 - Friendly Peeper increases the owner's max camera zoom-out while fed.
-- Dragonling and Mothling provide themed light only.
+- Dragonling and Mothling provide themed light only; light is not hunger-gated.
+- Lamb storage remains available independently of hunger.
 - Debug Mode helps test owner support and Peeper vision state.
 
 ## Configuration
@@ -34,6 +37,16 @@ Friends-only Don't Starve Together mod that modernizes critter benefits so they 
 | Option | Values | Default |
 | --- | --- | --- |
 | Debug Mode | Off, Log only, Chat + log | Off |
+
+## Diagnostics
+
+Use `Log only` during normal troubleshooting and `Chat + log` for a short live
+test. The following console command prints the selected player's Peeper state,
+camera limit, owned pets, hunger percentages, fed state, and active benefits:
+
+```text
+c_loyalcritters_status()
+```
 
 ## Install Locally
 

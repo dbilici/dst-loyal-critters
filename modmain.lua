@@ -22,6 +22,7 @@ local containers = require("containers")
 
 local GetModConfigData = GetModConfigData
 
+local VERSION = "1.7.2"
 local DEBUG_MODE = GetModConfigData ~= nil and GetModConfigData("betterpet_debug") or "off"
 local DEBUG_LOG = DEBUG_MODE == true or DEBUG_MODE == "log" or DEBUG_MODE == "announce"
 local DEBUG_ANNOUNCE = DEBUG_MODE == "announce"
@@ -53,6 +54,8 @@ local function BetterPetDebugLeader(pet, message)
     BetterPetDebugLog(pet_name .. ": " .. tostring(message))
     BetterPetDebugSay(leader, message)
 end
+
+BetterPetDebugLog("Loaded version=" .. VERSION .. ", debug_mode=" .. tostring(DEBUG_MODE))
 
 local BALANCE = {
     -- A pet only helps its owner, and only while it is fed/satiated.
@@ -545,7 +548,10 @@ local function BetterPetDebugStatus(player)
     local satiated_min = (BALANCE ~= nil and BALANCE.pet_satiated_min_perish) or 0.5
 
     -- Header line: player-level vision state + current camera zoom limit.
-    local header = "Peeper vision net=" .. tostring(GetPeeperVisionNet(player))
+    local header = "version=" .. VERSION
+        .. ", debug_mode=" .. tostring(DEBUG_MODE)
+        .. ", player=" .. tostring(player.name or player.prefab or player.userid or "unknown")
+        .. ", Peeper vision net=" .. tostring(GetPeeperVisionNet(player))
     local camera = GLOBAL.TheCamera
     if camera ~= nil and camera.maxdist ~= nil and string ~= nil and string.format ~= nil then
         header = header .. ", camera maxdist=" .. string.format("%.2f", camera.maxdist)
