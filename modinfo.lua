@@ -1,6 +1,6 @@
 name = "Loyal Critters"
 description = "Modernized loyal critter support for Don't Starve Together.\n\n"..
-"Every pet benefit now goes to its OWNER ONLY, and stays active only while the pet is fed and satiated. Feed a pet to keep the benefit going; distance no longer matters.\n\n"..
+"Pet support affects the OWNER ONLY. Puppy, Kitten, Perdling, Glomling, and Friendly Peeper support stays active while that pet is fed; distance no longer matters. Lamb storage and themed light pets remain available independently of hunger.\n\n"..
 "Changes:\n"..
 "- Added Mothling and Friendly Peeper support.\n"..
 "- Puppy: 1.2x damage buff to the owner while the puppy is fed.\n"..
@@ -13,7 +13,7 @@ description = "Modernized loyal critter support for Don't Starve Together.\n\n".
 "- Pets no longer affect other players in any way. Teammate/fed-team support has been removed.\n"..
 "- Optional Debug Mode helps test owner support and Peeper vision state."
 author = "k0za1ak"
-version = "1.7.1"
+version = "1.7.2"
 forumthread = ""
 api_version = 10
 dst_compatible = true

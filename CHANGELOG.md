@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.2 - Description and diagnostics
+
+- Corrected the public description: fed-gated owner buffs depend on satiation,
+  while Lamb storage and Dragonling/Mothling light do not.
+- Expanded `c_loyalcritters_status()` with version, debug mode, and player
+  identity.
+- Expanded the Workshop copy with exact benefit values and troubleshooting.
+
 ## 1.7.1 - Publish metadata refresh
 
 - Reworded fed-state text for Steam-facing metadata and debug output.
