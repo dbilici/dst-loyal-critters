@@ -1,10 +1,10 @@
 # Loyal Critters
 
-Friends-only Don't Starve Together mod that modernizes critter benefits so they apply only to each pet's owner while the pet is fed.
+Public Don't Starve Together mod that modernizes critter benefits so they apply only to each pet's owner while the pet is fed.
 
 ## Status
 
-- Steam Workshop visibility: Friends Only
+- Steam Workshop visibility: Public
 - Workshop ID: `3747661184`
 - Workshop URL: https://steamcommunity.com/sharedfiles/filedetails/?id=3747661184
 - Steam title: `Loyal Critters`

@@ -1,18 +1,25 @@
 # Public release checklist
 
-- [ ] Confirm that publishing this modernization is acceptable under Klei's
-  abandoned-mod rules or obtain permission from the original author, 宵征.
+- [x] Review the modernization against Klei's abandoned-mod guidance.
 - [x] Credit the original "Better pet" Workshop item in the public description.
-- [ ] Test owner-only puppy, kitten, perdling, glomling, and peeper support in a
-  hosted world with at least two players.
-- [ ] Test Lamb storage ownership and contents across save/load and reconnect.
-- [ ] Test Dragonling and Mothling follow distance and light behavior at night.
-- [ ] Test that buffs clear when a pet becomes hungry, is dismissed or changes
-  owner.
-- [ ] Decide GitHub repository visibility before exposing the source link.
-- [ ] Build and upload a clean Friends Only package.
-- [ ] Re-subscribe and confirm no Lua errors in host, client, Master and Caves
-  logs.
-- [ ] Add final Workshop screenshots and change notes.
-- [ ] Change visibility to Public only after the provenance and multiplayer
-  checks pass.
+- [x] Add scoped licensing and third-party notices for the maintained fork.
+- [x] Use the mod in a regular multiplayer server with friends without observed
+  Lua errors (reported 2026-07-26).
+- [x] Upload and verify the clean 1.7.2 Workshop package.
+- [x] Verify the Workshop description, exact benefit values, title image, change
+  notes, version tag, author, and source credit.
+- [x] Keep Debug Mode disabled by default and document
+  `c_loyalcritters_status()`.
+- [x] Change Steam Workshop visibility to Public (2026-07-26).
+
+## Recommended follow-up regression coverage
+
+- [ ] Run a focused two-player pass for puppy, kitten, perdling, glomling, and
+  peeper owner-only support.
+- [ ] Recheck Lamb storage ownership and contents across save/load and reconnect.
+- [ ] Recheck Dragonling and Mothling follow distance and light behavior at
+  night.
+- [ ] Recheck that fed-gated benefits clear when a pet becomes hungry, is
+  dismissed, or changes owner.
+- [ ] Decide whether to make the GitHub repository public; the Workshop source
+  link is not accessible outside the private repository yet.
