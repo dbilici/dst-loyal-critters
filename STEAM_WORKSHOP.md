@@ -35,12 +35,11 @@ benefits, and Peeper camera state.
 
 The server and every joining player must install and enable the same version.
 
-[h2]Credits and provenance[/h2]
+[h2]Credits[/h2]
 
-Modernized and maintained by k0za1ak.
+Based on [url=https://steamcommunity.com/sharedfiles/filedetails/?id=849986686]Better pet[/url] by [b]宵征[/b]. The original critter prefab and behavior code used by this mod originate from that work.
 
-Based on “Better pet” by 宵征:
-https://steamcommunity.com/sharedfiles/filedetails/?id=849986686
+The original item was last updated in 2017 and is no longer compatible with the current DST critter roster. This modernization is maintained by [b]k0za1ak[/b] under [url=https://support.klei.com/hc/en-us/articles/360029557172-I-am-Interested-in-Modding-Don-t-Starve]Klei's abandoned-mod guidance[/url], with owner-only benefit rules, current critter support, revised balance, and diagnostics. If the original author requests removal or different attribution, this item will be updated or removed.
 
 Version: 1.7.2
 
