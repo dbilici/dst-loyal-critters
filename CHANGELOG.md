@@ -7,6 +7,7 @@
 - Expanded `c_loyalcritters_status()` with version, debug mode, and player
   identity.
 - Expanded the Workshop copy with exact benefit values and troubleshooting.
+- Published the verified 1.7.2 package on Steam Workshop.
 
 ## 1.7.1 - Publish metadata refresh
 
