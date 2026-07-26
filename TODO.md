@@ -21,5 +21,5 @@
   night.
 - [ ] Recheck that fed-gated benefits clear when a pet becomes hungry, is
   dismissed, or changes owner.
-- [ ] Decide whether to make the GitHub repository public; the Workshop source
-  link is not accessible outside the private repository yet.
+- [x] Keep the GitHub repository public so the Workshop source and bug-report
+  link is accessible.
