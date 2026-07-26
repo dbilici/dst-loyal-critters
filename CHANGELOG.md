@@ -8,6 +8,8 @@
   identity.
 - Expanded the Workshop copy with exact benefit values and troubleshooting.
 - Published the verified 1.7.2 package on Steam Workshop.
+- Expanded the Workshop credits with direct attribution, provenance details,
+  and Klei's abandoned-mod guidance.
 
 ## 1.7.1 - Publish metadata refresh
 
