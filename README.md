@@ -15,7 +15,7 @@ Public Don't Starve Together mod that modernizes critter benefits so they apply 
 - Original Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=849986686
 - Source repository: https://github.com/dbilici/dst-loyal-critters
 - Repository folder: `dst-loyal-critters`
-- Version: `1.7.3`
+- Version: `1.7.4`
 
 ## Features
 
@@ -42,7 +42,8 @@ Public Don't Starve Together mod that modernizes critter benefits so they apply 
 
 Enabling Walter support raises his regular critter capacity from zero to one.
 Woby is managed separately and remains available. If another mod already grants
-Walter a larger pet capacity, Loyal Critters does not reduce it.
+Walter a larger pet capacity, Loyal Critters does not reduce it. Disabling the
+option prevents new adoptions but does not remove a critter Walter already owns.
 
 ## Diagnostics
 
