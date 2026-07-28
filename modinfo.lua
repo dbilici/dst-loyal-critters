@@ -14,7 +14,7 @@ description = "Modernized loyal critter support for Don't Starve Together.\n\n".
 "- Pets no longer affect other players in any way. Teammate/fed-team support has been removed.\n"..
 "- Optional Debug Mode helps test owner support and Peeper vision state."
 author = "k0za1ak"
-version = "1.7.3"
+version = "1.7.4"
 forumthread = ""
 api_version = 10
 dst_compatible = true
@@ -30,10 +30,10 @@ configuration_options =
     {
         name = "allow_walter_critter",
         label = "Walter Can Adopt Critters",
-        hover = "Allow Walter to adopt one critter while keeping Woby. Disabled preserves the vanilla restriction.",
+        hover = "Allow Walter to adopt one critter while keeping Woby. Disabling blocks new adoptions but does not remove an existing critter.",
         options =
         {
-            { description = "Disabled", data = false, hover = "Walter keeps the vanilla Woby-only pet restriction." },
+            { description = "Disabled", data = false, hover = "Walter cannot adopt a new critter. An existing critter is not removed." },
             { description = "Enabled", data = true, hover = "Walter may adopt one critter alongside Woby." },
         },
         default = false,

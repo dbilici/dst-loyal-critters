@@ -23,7 +23,7 @@ local WalterCritter = require("loyalcritters/walter")
 
 local GetModConfigData = GetModConfigData
 
-local VERSION = "1.7.3"
+local VERSION = "1.7.4"
 local ALLOW_WALTER_CRITTER = GetModConfigData ~= nil and GetModConfigData("allow_walter_critter") == true
 local DEBUG_MODE = GetModConfigData ~= nil and GetModConfigData("betterpet_debug") or "off"
 local DEBUG_LOG = DEBUG_MODE == true or DEBUG_MODE == "log" or DEBUG_MODE == "announce"

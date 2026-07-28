@@ -507,7 +507,7 @@ local function builder_onbuilt(inst, builder)
         pt.x = pt.x + offset.x
         pt.z = pt.z + offset.z
     end
-    builder.components.petleash:SpawnPetAt(pt.x, 0, pt.z, inst.pettype, inst.skin_name)
+    builder.components.petleash:SpawnPetAt(pt.x, 0, pt.z, inst.pettype, inst.linked_skinname)
     inst:Remove()
 end
 

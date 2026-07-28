@@ -30,7 +30,8 @@ Pets never grant these benefits to teammates or nearby players.
 
 Walter normally cannot adopt critters because Woby is his exclusive companion.
 [b]Walter Can Adopt Critters[/b] defaults to [b]Disabled[/b]. Enable it to let
-Walter adopt one regular critter alongside Woby.
+Walter adopt one regular critter alongside Woby. Disabling the option prevents
+new adoptions but does not remove a critter Walter already owns.
 
 Debug Mode defaults to [b]Off[/b] and can use [b]Log only[/b] or
 [b]Chat + log[/b]. Run [code]c_loyalcritters_status()[/code] in the console to
@@ -45,18 +46,17 @@ Based on [url=https://steamcommunity.com/sharedfiles/filedetails/?id=849986686]B
 
 The original item was last updated in 2017 and is no longer compatible with the current DST critter roster. This modernization is maintained by [b]k0za1ak[/b] under [url=https://support.klei.com/hc/en-us/articles/360029557172-I-am-Interested-in-Modding-Don-t-Starve]Klei's abandoned-mod guidance[/url], with owner-only benefit rules, current critter support, revised balance, and diagnostics. If the original author requests removal or different attribution, this item will be updated or removed.
 
-Version: 1.7.3
+Version: 1.7.4
 
 Source code and bug reports:
 https://github.com/dbilici/dst-loyal-critters
 
 ## Change notes
 
-[h1]1.7.3[/h1]
+[h1]1.7.4[/h1]
 
 [list]
-[*]Added an optional setting that lets Walter adopt one critter alongside Woby.
-[*]Kept Walter's vanilla Woby-only restriction by default.
-[*]Preserved larger pet capacities provided by other mods.
-[*]Added the effective Walter setting to diagnostics.
+[*]Fixed Critter Lab adoptions ignoring the selected skin and spawning the basic appearance.
+[*]Updated compatibility with DST's current critter skin data.
+[*]Clarified that disabling Walter critter access blocks new adoptions without removing an existing critter.
 [/list]

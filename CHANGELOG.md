@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.4 - Critter skin selection fix
+
+- Fixed Critter Lab adoptions ignoring the selected skin and spawning the basic
+  appearance.
+- Updated the critter builder to use DST's current linked skin field.
+- Clarified that disabling Walter critter access blocks new adoptions without
+  removing an existing critter.
+
 ## 1.7.3 - Optional Walter critter access
 
 - Added the `Walter Can Adopt Critters` configuration option.
