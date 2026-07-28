@@ -10,10 +10,11 @@ description = "Modernized loyal critter support for Don't Starve Together.\n\n".
 "- Glomling: sanity aura to the owner while fed, at full strength regardless of distance.\n"..
 "- Friendly Peeper: Horizon Expandinator-style vision support. Increases the owner's maximum zoom-out while the Peeper is fed. Fixed the jarring camera-angle jump.\n"..
 "- Dragonling and Mothling give ONLY their themed light (no temperature effects). Light pets follow closer so their light is useful.\n"..
+"- Optional Walter support lets him adopt one critter alongside Woby. Disabled by default.\n"..
 "- Pets no longer affect other players in any way. Teammate/fed-team support has been removed.\n"..
 "- Optional Debug Mode helps test owner support and Peeper vision state."
 author = "k0za1ak"
-version = "1.7.2"
+version = "1.7.3"
 forumthread = ""
 api_version = 10
 dst_compatible = true
@@ -26,6 +27,17 @@ server_filter_tags = {"pet", "critter", "support", "camera"}
 
 configuration_options =
 {
+    {
+        name = "allow_walter_critter",
+        label = "Walter Can Adopt Critters",
+        hover = "Allow Walter to adopt one critter while keeping Woby. Disabled preserves the vanilla restriction.",
+        options =
+        {
+            { description = "Disabled", data = false, hover = "Walter keeps the vanilla Woby-only pet restriction." },
+            { description = "Enabled", data = true, hover = "Walter may adopt one critter alongside Woby." },
+        },
+        default = false,
+    },
     {
         name = "betterpet_debug",
         label = "Debug Mode",

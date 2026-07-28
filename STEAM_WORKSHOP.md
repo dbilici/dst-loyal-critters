@@ -28,10 +28,14 @@ Pets never grant these benefits to teammates or nearby players.
 
 [h2]Configuration and diagnostics[/h2]
 
+Walter normally cannot adopt critters because Woby is his exclusive companion.
+[b]Walter Can Adopt Critters[/b] defaults to [b]Disabled[/b]. Enable it to let
+Walter adopt one regular critter alongside Woby.
+
 Debug Mode defaults to [b]Off[/b] and can use [b]Log only[/b] or
 [b]Chat + log[/b]. Run [code]c_loyalcritters_status()[/code] in the console to
-report the chosen player, owned pets, hunger percentages, fed state, active
-benefits, and Peeper camera state.
+report the chosen player, regular pet capacity, owned pets, hunger percentages,
+fed state, active benefits, and Peeper camera state.
 
 The server and every joining player must install and enable the same version.
 
@@ -41,7 +45,18 @@ Based on [url=https://steamcommunity.com/sharedfiles/filedetails/?id=849986686]B
 
 The original item was last updated in 2017 and is no longer compatible with the current DST critter roster. This modernization is maintained by [b]k0za1ak[/b] under [url=https://support.klei.com/hc/en-us/articles/360029557172-I-am-Interested-in-Modding-Don-t-Starve]Klei's abandoned-mod guidance[/url], with owner-only benefit rules, current critter support, revised balance, and diagnostics. If the original author requests removal or different attribution, this item will be updated or removed.
 
-Version: 1.7.2
+Version: 1.7.3
 
 Source code and bug reports:
 https://github.com/dbilici/dst-loyal-critters
+
+## Change notes
+
+[h1]1.7.3[/h1]
+
+[list]
+[*]Added an optional setting that lets Walter adopt one critter alongside Woby.
+[*]Kept Walter's vanilla Woby-only restriction by default.
+[*]Preserved larger pet capacities provided by other mods.
+[*]Added the effective Walter setting to diagnostics.
+[/list]

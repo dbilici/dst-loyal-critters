@@ -19,10 +19,12 @@ local net_bool = GLOBAL.net_bool
 local TheNet = GLOBAL.TheNet
 
 local containers = require("containers")
+local WalterCritter = require("loyalcritters/walter")
 
 local GetModConfigData = GetModConfigData
 
-local VERSION = "1.7.2"
+local VERSION = "1.7.3"
+local ALLOW_WALTER_CRITTER = GetModConfigData ~= nil and GetModConfigData("allow_walter_critter") == true
 local DEBUG_MODE = GetModConfigData ~= nil and GetModConfigData("betterpet_debug") or "off"
 local DEBUG_LOG = DEBUG_MODE == true or DEBUG_MODE == "log" or DEBUG_MODE == "announce"
 local DEBUG_ANNOUNCE = DEBUG_MODE == "announce"
@@ -55,7 +57,9 @@ local function BetterPetDebugLeader(pet, message)
     BetterPetDebugSay(leader, message)
 end
 
-BetterPetDebugLog("Loaded version=" .. VERSION .. ", debug_mode=" .. tostring(DEBUG_MODE))
+BetterPetDebugLog("Loaded version=" .. VERSION
+    .. ", walter_critter=" .. tostring(ALLOW_WALTER_CRITTER)
+    .. ", debug_mode=" .. tostring(DEBUG_MODE))
 
 local BALANCE = {
     -- A pet only helps its owner, and only while it is fed/satiated.
@@ -94,6 +98,39 @@ local LIGHT_PREFABS = {
 local function IsMasterSim()
     return GLOBAL.TheWorld ~= nil and GLOBAL.TheWorld.ismastersim
 end
+
+-------------------------------------------------------------------------------
+-- Optional Walter critter access
+--
+-- Vanilla explicitly sets Walter's petleash maximum to 0 so Woby is his only
+-- companion. Woby is managed separately, so allowing one regular pet here lets
+-- Walter adopt a critter without replacing or counting Woby. The setting is
+-- disabled by default and never lowers a capacity raised by another mod.
+
+local function ApplyWalterCritterAccess(inst)
+    if not ALLOW_WALTER_CRITTER
+        or not IsMasterSim()
+        or inst == nil
+        or inst.components == nil
+        or inst.components.petleash == nil then
+        return
+    end
+
+    local changed, current_max = WalterCritter.EnableCritterAccess(inst.components.petleash)
+
+    if changed then
+        BetterPetDebugLog("Walter critter access enabled; pet capacity raised from "
+            .. tostring(current_max) .. " to 1")
+    end
+end
+
+local function ConfigureWalterCritterAccess(inst)
+    if ALLOW_WALTER_CRITTER and IsMasterSim() then
+        inst:DoTaskInTime(0, ApplyWalterCritterAccess)
+    end
+end
+
+AddPrefabPostInit("walter", ConfigureWalterCritterAccess)
 
 -------------------------------------------------------------------------------
 -- Lamb storage
@@ -549,9 +586,14 @@ local function BetterPetDebugStatus(player)
 
     -- Header line: player-level vision state + current camera zoom limit.
     local header = "version=" .. VERSION
+        .. ", walter_critter=" .. tostring(ALLOW_WALTER_CRITTER)
         .. ", debug_mode=" .. tostring(DEBUG_MODE)
         .. ", player=" .. tostring(player.name or player.prefab or player.userid or "unknown")
         .. ", Peeper vision net=" .. tostring(GetPeeperVisionNet(player))
+    local player_petleash = player.components ~= nil and player.components.petleash or nil
+    if player_petleash ~= nil and player_petleash.GetMaxPets ~= nil then
+        header = header .. ", pet_capacity=" .. tostring(player_petleash:GetMaxPets())
+    end
     local camera = GLOBAL.TheCamera
     if camera ~= nil and camera.maxdist ~= nil and string ~= nil and string.format ~= nil then
         header = header .. ", camera maxdist=" .. string.format("%.2f", camera.maxdist)
@@ -560,7 +602,7 @@ local function BetterPetDebugStatus(player)
 
     -- Per-pet detail. Benefits are owner-only now, so we look at THIS player's
     -- own pets via petleash rather than scanning nearby critters.
-    local petleash = player.components ~= nil and player.components.petleash or nil
+    local petleash = player_petleash
     local summary_parts = {}
 
     if petleash == nil then

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.3 - Optional Walter critter access
+
+- Added the `Walter Can Adopt Critters` configuration option.
+- When enabled, Walter can adopt one regular critter alongside Woby.
+- Kept the option disabled by default so vanilla Walter behavior is unchanged.
+- Preserved larger pet capacities configured by other mods.
+- Expanded diagnostics with the effective Walter setting.
+
 ## 1.7.2 - Description and diagnostics
 
 - Corrected the public description: fed-gated owner buffs depend on satiation,

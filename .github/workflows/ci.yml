@@ -34,6 +34,9 @@ jobs:
           find . -name '*.lua' -not -path './.git/*' -print0 \
             | xargs -0 -n1 luac5.1 -p
 
+      - name: Run Walter critter regression test
+        run: lua5.1 tests/walter_critter_spec.lua
+
       - name: Check release metadata
         shell: bash
         run: |

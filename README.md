@@ -15,7 +15,7 @@ Public Don't Starve Together mod that modernizes critter benefits so they apply 
 - Original Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=849986686
 - Source repository: https://github.com/dbilici/dst-loyal-critters
 - Repository folder: `dst-loyal-critters`
-- Version: `1.7.2`
+- Version: `1.7.3`
 
 ## Features
 
@@ -30,19 +30,26 @@ Public Don't Starve Together mod that modernizes critter benefits so they apply 
 - Friendly Peeper increases the owner's max camera zoom-out while fed.
 - Dragonling and Mothling provide themed light only; light is not hunger-gated.
 - Lamb storage remains available independently of hunger.
+- Optional Walter support lets him adopt one critter alongside Woby.
 - Debug Mode helps test owner support and Peeper vision state.
 
 ## Configuration
 
 | Option | Values | Default |
 | --- | --- | --- |
+| Walter Can Adopt Critters | Disabled, Enabled | Disabled |
 | Debug Mode | Off, Log only, Chat + log | Off |
+
+Enabling Walter support raises his regular critter capacity from zero to one.
+Woby is managed separately and remains available. If another mod already grants
+Walter a larger pet capacity, Loyal Critters does not reduce it.
 
 ## Diagnostics
 
 Use `Log only` during normal troubleshooting and `Chat + log` for a short live
 test. The following console command prints the selected player's Peeper state,
-camera limit, owned pets, hunger percentages, fed state, and active benefits:
+camera limit, regular pet capacity, owned pets, hunger percentages, fed state,
+and active benefits:
 
 ```text
 c_loyalcritters_status()
