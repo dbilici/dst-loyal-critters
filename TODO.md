@@ -21,5 +21,8 @@
   night.
 - [ ] Recheck that fed-gated benefits clear when a pet becomes hungry, is
   dismissed, or changes owner.
+- [ ] With Walter support disabled, confirm Walter still cannot adopt a critter.
+- [ ] With Walter support enabled, confirm Walter can adopt exactly one critter
+  alongside both small and big Woby.
 - [x] Keep the GitHub repository public so the Workshop source and bug-report
   link is accessible.
