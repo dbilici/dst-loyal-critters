@@ -1,6 +1,6 @@
 package.path = "./scripts/?.lua;" .. package.path
 local Nutrition = require("loyalcritters/nutrition")
-local Repellent = require("loyalcritters/repellent")
+local Aggro = require("loyalcritters/aggro")
 local player = {components = {}}
 local eets = {prefab = "critter_eets", components = {}}
 local percent, owner = 1, player
@@ -23,30 +23,44 @@ percent=1
 owner=nil
 check(5,10)
 
-local bulbin = {prefab="critter_bulbin", components=eets.components, Transform={GetWorldPosition=function() return 0,0,0 end}}
-function bulbin:IsValid() return true end
-function bulbin:HasTag() return false end
-local function target(prefab)
-    return {prefab=prefab, components={locomotor={}}, IsValid=function() return true end, HasTag=function() return false end}
+local bulbin = {prefab="critter_bulbin", components=eets.components}
+local other = {components={}}
+function player:HasTag(tag) return tag=="player" end
+function other:HasTag(tag) return tag=="player" end
+player.components.petleash.GetPets = function() return {[bulbin]=true} end
+local inst = {HasTag=function() return false end}
+local distance=9
+function inst:GetDistanceSqToInst() return distance^2 end
+local env={}
+local original=function(center,radius,predicate)
+    if predicate(player) then return player end
+    if predicate(other) then return other end
 end
-local pests = {}
-for _, prefab in ipairs({"fruitfly","mosquito","killerbee","frog","perd","bee","friendlyfruitfly","spider","lordfruitfly"}) do
-    table.insert(pests,target(prefab))
-end
-local function find(x,y,z,r) assert(r==8); return pests end
+env.FindEntity=original
+local combat={targetfn=function(i) return env.FindEntity(i,10,function() return true end),true end}
 owner=player
-Repellent.Pulse(bulbin, ownerof, find, 15)
-for i,p in ipairs(pests) do
-    assert(Repellent.GetSource(p,ownerof,15) == (i<=5 and bulbin or nil))
-    assert(Repellent.GetSource(p,ownerof,18)==nil)
-end
-Repellent.Pulse(bulbin,ownerof,find,30)
-owner=nil
-assert(Repellent.GetSource(pests[1],ownerof,31)==nil)
-Repellent.Pulse(bulbin,ownerof,find,45)
-assert(Repellent.GetSource(pests[1],ownerof,45)==nil)
-owner=player
+percent=1
+Aggro.Wrap(combat,ownerof,env)
+Aggro.Wrap(combat,ownerof,env)
+assert(combat.targetfn(inst)==other)
+distance=8
+assert(combat.targetfn(inst)==player)
+distance=9
 percent=.5
-Repellent.Pulse(bulbin,ownerof,find,60)
-assert(Repellent.GetSource(pests[1],ownerof,60)==nil)
+assert(combat.targetfn(inst)==player)
+percent=1
+owner=nil
+assert(combat.targetfn(inst)==player)
+owner=player
+combat.target=player
+assert(combat.targetfn(inst)==player)
+combat.target=nil
+inst.HasTag=function(_,tag) return tag=="epic" end
+assert(combat.targetfn(inst)==player)
+assert(env.FindEntity==original)
+inst.HasTag=function() return false end
+local broken={targetfn=function() error("test") end}
+Aggro.Wrap(broken,ownerof,env)
+assert(not pcall(broken.targetfn,inst))
+assert(env.FindEntity==original)
 print("new_critter_spec: OK")
