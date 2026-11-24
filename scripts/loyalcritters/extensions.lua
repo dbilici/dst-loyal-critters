@@ -206,14 +206,9 @@ function M.Install(AddPrefabPostInit, AddBrainPostInit, GetPetOwner, IsMasterSim
     end
 
     AddPrefabPostInit("critter_lamb", function(inst)
-        if not IsMasterSim() then
-            inst:DoTaskInTime(0, function()
-                if inst.replica.container ~= nil then
-                    inst.replica.container:WidgetSetup("critter_lamb")
-                end
-            end)
-            return
-        end
+        -- container_replica initializes its widget from containers.params
+        -- on the client when the entity's replicated tags arrive.
+        if not IsMasterSim() then return end
         if inst.components.container == nil then inst:AddComponent("container") end
         local container = inst.components.container
         container:WidgetSetup("critter_lamb")
@@ -225,15 +220,30 @@ function M.Install(AddPrefabPostInit, AddBrainPostInit, GetPetOwner, IsMasterSim
                 return open(self, doer, ...)
             end
         end
-        inst:ListenForEvent("leaderchanged", function(pet)
-            container:Close()
-            pet:DoTaskInTime(0, function()
-                local leader = pet.components.follower:GetLeader()
-                if leader ~= nil and not leader:HasTag("player") then
+
+        local function RefreshStorage(pet)
+            local owner = GetPetOwner(pet)
+            local leader = pet.components.follower:GetLeader()
+            container.canbeopened = owner ~= nil
+            if owner == nil then
+                container:Close()
+                -- Do not drop items during a temporary detach or save/load.
+                -- Only a confirmed non-player adoption empties storage.
+                local leash = leader and leader.components and leader.components.petleash
+                if leader ~= nil and not leader:HasTag("player")
+                    and leash ~= nil and leash:IsPet(pet) then
                     container:DropEverything()
                 end
-            end)
+            end
+        end
+
+        container.canbeopened = false
+        inst:ListenForEvent("leaderchanged", function(pet)
+            container:Close()
+            pet:DoTaskInTime(0, RefreshStorage)
         end)
+        inst:DoTaskInTime(0, RefreshStorage)
+        inst:DoPeriodicTask(1, RefreshStorage)
     end)
 
     -- Keep light pets close while sleeping; NPC owners keep vanilla distances.
