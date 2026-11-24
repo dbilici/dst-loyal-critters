@@ -363,7 +363,7 @@ local function PlayerHasSatiatedPeeper(player)
     for pet in pairs(player.components.petleash:GetPets()) do
         if pet ~= nil
             and pet.prefab == "critter_eyeofterror"
-            and IsPetSatiated(pet) then
+            and HasBetterPetSupportForPlayer(pet, player) then
             return true
         end
     end
@@ -409,75 +409,11 @@ local function IsLocalPlayer(player)
     return GLOBAL.ThePlayer ~= nil and player == GLOBAL.ThePlayer
 end
 
-local function SetBetterPetCameraMaxDistance(camera, max_distance)
-    if camera == nil or max_distance == nil then
-        return
-    end
-
-    camera.maxdist = max_distance
-
-    -- Only nudge the zoom *target* back into range. We intentionally do NOT
-    -- touch camera.distance directly: the FollowCamera eases distance toward
-    -- its target every frame, and snapping distance here caused the visible
-    -- camera "jump" (pitch/height are derived from the current distance).
-    if camera.distancetarget ~= nil and camera.distancetarget > max_distance then
-        camera.distancetarget = max_distance
-    end
-end
+local PeeperCamera = require("loyalcritters/camera")
 
 local function ApplyBetterPetPeeperVisionCamera(active)
-    local camera = GLOBAL.TheCamera
-    if camera == nil or camera.maxdist == nil then
-        return
-    end
-
-    if camera._betterpet_peeper_base_maxdist == nil then
-        camera._betterpet_peeper_base_maxdist = camera.maxdist
-    end
-
-    local base_maxdist = camera._betterpet_peeper_base_maxdist
-    local target_maxdist = base_maxdist + BALANCE.peeper_vision_zoom_bonus
-
-    if active then
-        local was_active = camera._betterpet_peeper_vision_active == true
-        camera._betterpet_peeper_vision_active = true
-
-        -- Do not fight dedicated camera/zoom mods. Only raise the limit when our
-        -- target is higher than the current limit.
-        if camera.maxdist < target_maxdist then
-            SetBetterPetCameraMaxDistance(camera, target_maxdist)
-            camera._betterpet_peeper_applied_maxdist = target_maxdist
-        else
-            camera._betterpet_peeper_applied_maxdist = nil
-        end
-
-        -- On the moment vision turns on (and only when we actually raised the
-        -- limit), automatically zoom the camera out toward the new range. We set
-        -- distancetarget (not distance) so the game eases the camera smoothly,
-        -- and we only ever push the view out -- never pull the player back in if
-        -- they had already zoomed out further themselves.
-        if not was_active
-            and camera._betterpet_peeper_applied_maxdist ~= nil
-            and camera.mindist ~= nil
-            and camera.distancetarget ~= nil then
-            local zoom_target = (camera.maxdist - camera.mindist) * PEEPER_VISION_ZOOM_FACTOR + camera.mindist
-            if zoom_target > camera.distancetarget then
-                camera.distancetarget = zoom_target
-            end
-        end
-    elseif camera._betterpet_peeper_vision_active then
-        camera._betterpet_peeper_vision_active = false
-
-        -- Restore only if the current value still looks like the value we applied.
-        -- This avoids lowering another zoom mod's larger limit.
-        if camera._betterpet_peeper_applied_maxdist ~= nil
-            and camera.maxdist <= camera._betterpet_peeper_applied_maxdist
-            and camera.maxdist > base_maxdist then
-            SetBetterPetCameraMaxDistance(camera, base_maxdist)
-        end
-
-        camera._betterpet_peeper_applied_maxdist = nil
-    end
+    PeeperCamera.Apply(GLOBAL.TheCamera, active, BALANCE.peeper_vision_zoom_bonus,
+        PEEPER_VISION_ZOOM_FACTOR)
 end
 
 local function UpdateLocalPeeperVisionCamera(player)
