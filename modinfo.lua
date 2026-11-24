@@ -43,10 +43,10 @@ configuration_options =
     {
         name = "betterpet_debug",
         label = "Debug Mode",
-        hover = "Testing helper for Loyal Critters. Shows owner support and Peeper vision state changes.",
+        hover = "Debug commands: c_lc(), c_lc_aggro(), c_lc_watch(), c_lc_help().",
         options =
         {
-            { description = "Off", data = "off", hover = "No debug output." },
+            { description = "Off", data = "off", hover = "No automatic debug output; explicit commands still print to server log." },
             { description = "Log only", data = "log", hover = "Print Loyal Critters debug messages to the server log." },
             { description = "Chat + log", data = "announce", hover = "Print to log and show short in-game test messages." },
         },
