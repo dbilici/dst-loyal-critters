@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.8.0-beta.2 - Repulsive Presence
+
+- Replace Bulbin's periodic fear effect with 20% shorter detection distance for supported idle enemy searches while fed.
+- Initial coverage: hounds, spiders, bees, frogs and mosquitoes. Existing combat targets, retaliation and bosses are unaffected by this hook.
+- Remove old repellent brain hooks; correct Eets debug label.
+- In-game validation pending.
+
 ## 1.8.0-beta.1 - Vanilla compatibility and new critters
 
 - Development test build; not published to Workshop.
