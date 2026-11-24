@@ -15,11 +15,15 @@ Public Don't Starve Together mod that modernizes critter benefits so they apply 
 - Original Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=849986686
 - Source repository: https://github.com/dbilici/dst-loyal-critters
 - Repository folder: `dst-loyal-critters`
-- Version: `1.7.4`
+- Published version: `1.7.4`
+- Development version: `1.8.0-beta.1` (in-game testing pending)
 
 ## Features
 
-- Owner-only pet benefits; pets no longer buff nearby teammates.
+- Owner-only player stat benefits; nearby players can benefit indirectly from light and pest repellent.
+- Eets: +20% positive food sanity while fed.
+- Bulbin: repels hostile fruit flies, mosquitoes, killer bees, frogs and gobblers for 3 seconds every 15 seconds while fed, within 8 units.
+- Vanilla prefab/skin handling and Pearl adoption compatibility.
 - Puppy, Kitten, Perdling, Glomling, and Friendly Peeper support stays active
   only while the corresponding pet is fed.
 - Puppy gives owner damage support.
