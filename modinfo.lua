@@ -1,9 +1,9 @@
 name = "Loyal Critters"
 description = "Modernized loyal critter support for Don't Starve Together.\n\n"..
-"Player stat support affects the OWNER ONLY while the relevant pet is fed. Bulbin repels nearby pests. Lamb storage and themed light pets remain available independently of hunger.\n\n"..
+"Player stat support affects the OWNER ONLY while the relevant pet is fed. Bulbin reduces supported enemy detection distance for its owner. Lamb storage and themed light pets remain available independently of hunger.\n\n"..
 "Changes:\n"..
 "- Eets: 20% more positive sanity from food while fed.\n"..
-"- Bulbin: repels nearby hostile fruit flies, mosquitoes, killer bees, frogs and gobblers for 3 seconds every 15 seconds while fed (8-unit radius).\n"..
+"- Bulbin: Repulsive Presence: 20% shorter detection distance for its owner while fed (supported hounds, spiders, bees, frogs and mosquitoes).\n"..
 "- Supports vanilla critters and Pearl adoption.\n"..
 "- Puppy: 1.2x damage buff to the owner while the puppy is fed.\n"..
 "- Kitten: 1.2x speed buff to the owner while the kitten is fed.\n"..
@@ -13,10 +13,10 @@ description = "Modernized loyal critter support for Don't Starve Together.\n\n".
 "- Friendly Peeper: Horizon Expandinator-style vision support. Increases the owner's maximum zoom-out while the Peeper is fed. Fixed the jarring camera-angle jump.\n"..
 "- Dragonling and Mothling give ONLY their themed light (no temperature effects). Light pets have shorter sleep distances.\n"..
 "- Optional Walter support lets him adopt one critter alongside Woby. Disabled by default.\n"..
-"- Player stat buffs are owner-only; nearby players may benefit indirectly from light and pest repellent.\n"..
+"- Player stat buffs are owner-only; nearby players may benefit indirectly from light.\n"..
 "- Optional Debug Mode helps test owner support and Peeper vision state."
 author = "k0za1ak"
-version = "1.8.0-beta.1"
+version = "1.8.0-beta.2"
 forumthread = ""
 api_version = 10
 dst_compatible = true
