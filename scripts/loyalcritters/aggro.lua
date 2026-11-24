@@ -1,5 +1,5 @@
 -- Restrict only vanilla idle retarget searches, not retaliation or existing targets.
-local M = {}
+local M = { TEST_MULTIPLIER = .1 }
 local PREFABS = {"hound","firehound","icehound","spider","spider_warrior","spider_hider",
     "spider_spitter","spider_dropper","spider_moon","spider_healer","spider_water",
     "bee","killerbee","frog","mosquito"}
@@ -17,8 +17,20 @@ function M.HasFedBulbin(player, ownerof)
 end
 
 function M.AllowCandidate(inst, candidate, radius, ownerof)
-    if not candidate:HasTag("player") or not M.HasFedBulbin(candidate, ownerof) then return true end
-    return inst:GetDistanceSqToInst(candidate) <= (radius * .1)^2 -- TEMPORARY TEST ONLY: production multiplier is .8
+    if not candidate:HasTag("player") then return true end
+    local active = M.HasFedBulbin(candidate, ownerof)
+    local effective = radius * (active and M.TEST_MULTIPLIER or 1)
+    local distance = math.sqrt(inst:GetDistanceSqToInst(candidate))
+    local allowed = not active or distance <= effective
+    -- Last real search decision, recorded only for explicitly watched players.
+    if candidate._lc_aggro_watch then
+        local stats = candidate._lc_aggro_watch
+        stats.count = stats.count + 1
+        stats.last = { enemy = inst.prefab, guid = inst.GUID, base = radius,
+            effective = effective, distance = distance, active = active, allowed = allowed,
+            time = GetTime() }
+    end
+    return allowed
 end
 
 -- Vanilla retarget callbacks are synchronous. Temporarily decorate FindEntity
@@ -40,8 +52,8 @@ function M.Wrap(combat, ownerof, env)
                 return find(center, radius, predicate, ...)
             end
             return find(center, radius, function(candidate, ...)
-                return M.AllowCandidate(inst, candidate, radius, ownerof)
-                    and (predicate == nil or predicate(candidate, ...))
+                return (predicate == nil or predicate(candidate, ...))
+                    and M.AllowCandidate(inst, candidate, radius, ownerof)
             end, ...)
         end
         local ok, target, force = pcall(previous, inst, ...)
