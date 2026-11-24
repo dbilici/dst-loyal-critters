@@ -18,7 +18,7 @@ end
 
 function M.AllowCandidate(inst, candidate, radius, ownerof)
     if not candidate:HasTag("player") or not M.HasFedBulbin(candidate, ownerof) then return true end
-    return inst:GetDistanceSqToInst(candidate) <= (radius * .8)^2
+    return inst:GetDistanceSqToInst(candidate) <= (radius * .1)^2 -- TEMPORARY TEST ONLY: production multiplier is .8
 end
 
 -- Vanilla retarget callbacks are synchronous. Temporarily decorate FindEntity
