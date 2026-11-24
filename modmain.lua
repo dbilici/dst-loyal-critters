@@ -444,4 +444,14 @@ AddPlayerPostInit(function(player)
         player:DoTaskInTime(0, function(inst) Nutrition.InstallPlayer(inst, GetPetOwner) end)
     end
 end)
-require("loyalcritters/aggro").Install(AddPrefabPostInit, GetPetOwner, IsMasterSim, GLOBAL)
+local Aggro = require("loyalcritters/aggro")
+Aggro.Install(AddPrefabPostInit, GetPetOwner, IsMasterSim, GLOBAL)
+GLOBAL.c_loyalcritters_aggro = function()
+    if not IsMasterSim() then return end
+    local player = GLOBAL.ConsoleCommandPlayer()
+    if player == nil then return end
+    local active = Aggro.HasFedBulbin(player, GetPetOwner)
+    local message = "Bulbin: " .. (active and "ACTIVE (TEST radius x0.1)" or "OFF (vanilla radius)")
+    print("[Loyal Critters Debug] " .. message)
+    BetterPetDebugSay(player, message)
+end
