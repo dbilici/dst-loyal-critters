@@ -347,7 +347,7 @@ local PET_BENEFITS = {
     critter_lunarmothling = { label = "light",            gated = false },
     critter_lamb          = { label = "storage",          gated = false },
     critter_perdling      = { label = "-hunger drain",    gated = true },
-    critter_bulbin        = { label = "vanilla behavior", gated = false },
+    critter_bulbin        = { label = "pest repellent", gated = true },
     critter_eets          = { label = "vanilla behavior", gated = false },
 }
 
@@ -438,3 +438,10 @@ GLOBAL.c_betterpet_status = BetterPetDebugStatus
 GLOBAL.c_loyalcritters_status = BetterPetDebugStatus
 
 AddPlayerPostInit(ConfigurePeeperVision)
+local Nutrition = require("loyalcritters/nutrition")
+AddPlayerPostInit(function(player)
+    if IsMasterSim() then
+        player:DoTaskInTime(0, function(inst) Nutrition.InstallPlayer(inst, GetPetOwner) end)
+    end
+end)
+require("loyalcritters/repellent").Install(AddPrefabPostInit, AddBrainPostInit, GetPetOwner, IsMasterSim)
