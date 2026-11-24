@@ -96,4 +96,33 @@ assert(follow.target_dist_fn(p) == 6 and follow.max_dist_fn(p) == 8)
 p:transfer(pearl)
 assert(follow.target_dist_fn(p) == 4 and follow.max_dist_fn(p) == 4.5)
 assert(minigame.target_dist_fn == nil, "minigame distances untouched")
+-- Lamb storage must remain inaccessible to other players and NPCs.
+local keeper, stranger, hermit = owner(true), owner(true), owner(false)
+local lamb = pet("critter_lamb", keeper)
+local chest = {items = 4, drops = 0, opens = 0, closes = 0}
+function chest:WidgetSetup(name) assert(name == "critter_lamb") end
+function chest:Open(doer) self.opens = self.opens + 1 end
+function chest:Close() self.closes = self.closes + 1 end
+function chest:IsEmpty() return self.items == 0 end
+function chest:DropEverything() self.drops = self.drops + 1; self.items = 0 end
+lamb.components.container = chest
+lamb.components.preserver = {SetPerishRateMultiplier = function(self, n) self.rate = n end}
+for _, fn in ipairs(hooks.critter_lamb) do fn(lamb) end
+lamb:flush()
+assert(chest.canbeopened and lamb.components.preserver.rate == 1.5)
+chest:Open(stranger)
+assert(chest.opens == 0, "stranger denied")
+chest:Open(keeper)
+assert(chest.opens == 1, "owner allowed")
+lamb:transfer(nil)
+assert(not chest.canbeopened and chest.items == 4, "temporary detach preserves storage")
+lamb:transfer(keeper)
+assert(chest.canbeopened and chest.items == 4, "reattach preserves storage")
+lamb:transfer(hermit)
+assert(not chest.canbeopened and chest.items == 0 and chest.drops == 1, "confirmed NPC adoption releases storage")
+chest:Open(keeper)
+assert(chest.opens == 1, "former owner denied")
+lamb:tick()
+assert(chest.drops == 1, "empty storage is not dropped repeatedly")
+
 print("critter_compatibility_spec: OK")
