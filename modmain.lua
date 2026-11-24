@@ -347,7 +347,7 @@ local PET_BENEFITS = {
     critter_lunarmothling = { label = "light",            gated = false },
     critter_lamb          = { label = "storage",          gated = false },
     critter_perdling      = { label = "-hunger drain",    gated = true },
-    critter_bulbin        = { label = "-20% detection radius", gated = true },
+    critter_bulbin        = { label = "-90% detection radius (TEST)", gated = true },
     critter_eets          = { label = "+20% food sanity", gated = true },
 }
 
