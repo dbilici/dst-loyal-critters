@@ -43,7 +43,7 @@ percent=1
 Aggro.Wrap(combat,ownerof,env)
 Aggro.Wrap(combat,ownerof,env)
 assert(combat.targetfn(inst)==other)
-distance=8
+distance=1
 assert(combat.targetfn(inst)==player)
 distance=9
 percent=.5
