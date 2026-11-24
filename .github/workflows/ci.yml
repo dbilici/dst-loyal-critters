@@ -41,6 +41,9 @@ jobs:
       - name: Run critter compatibility regression tests
         run: lua5.1 tests/critter_compatibility_spec.lua
 
+      - name: Run Peeper camera regression tests
+        run: lua5.1 tests/camera_spec.lua
+
       - name: Check release metadata
         shell: bash
         run: |
