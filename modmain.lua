@@ -20,7 +20,7 @@ local WalterCritter = require("loyalcritters/walter")
 
 local GetModConfigData = GetModConfigData
 
-local VERSION = "1.8.0-beta.1"
+local VERSION = "1.8.0-beta.2"
 local ALLOW_WALTER_CRITTER = GetModConfigData ~= nil and GetModConfigData("allow_walter_critter") == true
 local DEBUG_MODE = GetModConfigData ~= nil and GetModConfigData("betterpet_debug") or "off"
 local DEBUG_LOG = DEBUG_MODE == true or DEBUG_MODE == "log" or DEBUG_MODE == "announce"
@@ -347,8 +347,8 @@ local PET_BENEFITS = {
     critter_lunarmothling = { label = "light",            gated = false },
     critter_lamb          = { label = "storage",          gated = false },
     critter_perdling      = { label = "-hunger drain",    gated = true },
-    critter_bulbin        = { label = "pest repellent", gated = true },
-    critter_eets          = { label = "vanilla behavior", gated = false },
+    critter_bulbin        = { label = "-20% detection radius", gated = true },
+    critter_eets          = { label = "+20% food sanity", gated = true },
 }
 
 local function BetterPetDebugStatus(player)
@@ -444,4 +444,4 @@ AddPlayerPostInit(function(player)
         player:DoTaskInTime(0, function(inst) Nutrition.InstallPlayer(inst, GetPetOwner) end)
     end
 end)
-require("loyalcritters/repellent").Install(AddPrefabPostInit, AddBrainPostInit, GetPetOwner, IsMasterSim)
+require("loyalcritters/aggro").Install(AddPrefabPostInit, GetPetOwner, IsMasterSim, GLOBAL)
