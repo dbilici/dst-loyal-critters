@@ -1,20 +1,22 @@
 name = "Loyal Critters"
 description = "Modernized loyal critter support for Don't Starve Together.\n\n"..
-"Pet support affects the OWNER ONLY. Puppy, Kitten, Perdling, Glomling, and Friendly Peeper support stays active while that pet is fed; distance no longer matters. Lamb storage and themed light pets remain available independently of hunger.\n\n"..
+"Player stat support affects the OWNER ONLY while the relevant pet is fed. Bulbin repels nearby pests. Lamb storage and themed light pets remain available independently of hunger.\n\n"..
 "Changes:\n"..
-"- Added Mothling and Friendly Peeper support.\n"..
+"- Eets: 20% more positive sanity from food while fed.\n"..
+"- Bulbin: repels nearby hostile fruit flies, mosquitoes, killer bees, frogs and gobblers for 3 seconds every 15 seconds while fed (8-unit radius).\n"..
+"- Supports vanilla critters and Pearl adoption.\n"..
 "- Puppy: 1.2x damage buff to the owner while the puppy is fed.\n"..
 "- Kitten: 1.2x speed buff to the owner while the kitten is fed.\n"..
 "- Lamb: 2x2 mini chest storage; only the owner can open it, and items inside spoil 1.5x faster.\n"..
 "- Perdling: owner's hunger drains 20% slower while it is fed (replaces the old redpouch drop).\n"..
 "- Glomling: sanity aura to the owner while fed, at full strength regardless of distance.\n"..
 "- Friendly Peeper: Horizon Expandinator-style vision support. Increases the owner's maximum zoom-out while the Peeper is fed. Fixed the jarring camera-angle jump.\n"..
-"- Dragonling and Mothling give ONLY their themed light (no temperature effects). Light pets follow closer so their light is useful.\n"..
+"- Dragonling and Mothling give ONLY their themed light (no temperature effects). Light pets have shorter sleep distances.\n"..
 "- Optional Walter support lets him adopt one critter alongside Woby. Disabled by default.\n"..
-"- Pets no longer affect other players in any way. Teammate/fed-team support has been removed.\n"..
+"- Player stat buffs are owner-only; nearby players may benefit indirectly from light and pest repellent.\n"..
 "- Optional Debug Mode helps test owner support and Peeper vision state."
 author = "k0za1ak"
-version = "1.7.4"
+version = "1.8.0-beta.1"
 forumthread = ""
 api_version = 10
 dst_compatible = true
