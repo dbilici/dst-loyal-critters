@@ -50,6 +50,9 @@ jobs:
       - name: Guard against obsolete prefab overrides
         run: lua5.1 tests/critter_skin_spec.lua
 
+      - name: Run new critter ability tests
+        run: lua5.1 tests/new_critter_spec.lua
+
       - name: Check release metadata
         shell: bash
         run: |
