@@ -224,14 +224,17 @@ function M.Install(AddPrefabPostInit, AddBrainPostInit, GetPetOwner, IsMasterSim
         local function RefreshStorage(pet)
             local owner = GetPetOwner(pet)
             local leader = pet.components.follower:GetLeader()
-            container.canbeopened = owner ~= nil
+            local canopen = owner ~= nil
+            if container.canbeopened ~= canopen then
+                container.canbeopened = canopen
+                if not canopen then container:Close() end
+            end
             if owner == nil then
-                container:Close()
                 -- Do not drop items during a temporary detach or save/load.
                 -- Only a confirmed non-player adoption empties storage.
                 local leash = leader and leader.components and leader.components.petleash
                 if leader ~= nil and not leader:HasTag("player")
-                    and leash ~= nil and leash:IsPet(pet) then
+                    and leash ~= nil and leash:IsPet(pet) and not container:IsEmpty() then
                     container:DropEverything()
                 end
             end
