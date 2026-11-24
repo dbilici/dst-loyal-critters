@@ -18,6 +18,7 @@ function M.Pulse(pet, ownerof, find, now)
             and not target:HasTag("playerghost") and target.components.locomotor ~= nil
             and (target.components.health == nil or not target.components.health:IsDead()) then
             target._loyalcritters_repellent = {source = pet, expires = now + DURATION}
+            if target.brain ~= nil then target.brain:ForceUpdate() end
         end
     end
 end
