@@ -351,91 +351,44 @@ local PET_BENEFITS = {
     critter_eets          = { label = "+20% food sanity", gated = true },
 }
 
+local Aggro = require("loyalcritters/aggro")
+local function DebugPlayer(player)
+    if not IsMasterSim() then return nil end
+    return player or (GLOBAL.ConsoleCommandPlayer ~= nil and GLOBAL.ConsoleCommandPlayer() or nil)
+end
+
+local function DebugOutput(player, message)
+    print("[Loyal Critters Debug] " .. message)
+    BetterPetDebugSay(player, message)
+end
+
 local function BetterPetDebugStatus(player)
-    if not DEBUG_LOG and not DEBUG_ANNOUNCE then
-        print("[Loyal Critters Debug] Debug Mode is off. Enable it in mod configuration for live test messages.")
-    end
-
-    player = player or (GLOBAL.AllPlayers ~= nil and GLOBAL.AllPlayers[1] or nil)
-    if player == nil then
-        print("[Loyal Critters Debug] No player found for status check.")
-        return
-    end
-
-    local satiated_min = (BALANCE ~= nil and BALANCE.pet_satiated_min_perish) or 0.5
-
-    -- Header line: player-level vision state + current camera zoom limit.
-    local header = "version=" .. VERSION
-        .. ", walter_critter=" .. tostring(ALLOW_WALTER_CRITTER)
-        .. ", debug_mode=" .. tostring(DEBUG_MODE)
-        .. ", player=" .. tostring(player.name or player.prefab or player.userid or "unknown")
-        .. ", Peeper vision net=" .. tostring(GetPeeperVisionNet(player))
-    local player_petleash = player.components ~= nil and player.components.petleash or nil
-    if player_petleash ~= nil and player_petleash.GetMaxPets ~= nil then
-        header = header .. ", pet_capacity=" .. tostring(player_petleash:GetMaxPets())
-    end
-    local camera = GLOBAL.TheCamera
-    if camera ~= nil and camera.maxdist ~= nil and string ~= nil and string.format ~= nil then
-        header = header .. ", camera maxdist=" .. string.format("%.2f", camera.maxdist)
-    end
-    print("[Loyal Critters Debug] " .. header)
-
-    -- Per-pet detail. Benefits are owner-only now, so we look at THIS player's
-    -- own pets via petleash rather than scanning nearby critters.
-    local petleash = player_petleash
-    local summary_parts = {}
-
-    if petleash == nil then
-        print("[Loyal Critters Debug]   (no petleash on this player)")
-    else
-        local owns_any = false
-        for pet in pairs(petleash:GetPets()) do
-            if pet ~= nil and pet.prefab ~= nil then
-                owns_any = true
-
-                local perish = (pet.components ~= nil and pet.components.perishable ~= nil)
-                    and pet.components.perishable:GetPercent() or nil
-                local fed = perish ~= nil and perish > satiated_min
-                local perish_txt = perish ~= nil and string.format("%.0f%%", perish * 100) or "n/a"
-
-                local info = PET_BENEFITS[pet.prefab]
-                local label = info ~= nil and info.label or "?"
-                local gated = info ~= nil and info.gated or false
-
-                local state
-                if gated then
-                    state = fed and (label .. " ACTIVE") or (label .. " off (needs feeding)")
-                else
-                    state = label .. " (always on)"
-                end
-
-                print("[Loyal Critters Debug]   " .. pet.prefab
-                    .. ": hunger=" .. perish_txt
-                    .. " fed=" .. tostring(fed)
-                    .. " -> " .. state)
-
-                local short = string.gsub(pet.prefab, "^critter_", "")
-                table.insert(summary_parts, short .. "(" .. (fed and "fed" or "hungry") .. ")")
-            end
-        end
-
-        if not owns_any then
-            print("[Loyal Critters Debug]   (this player owns no pets)")
-            table.insert(summary_parts, "no pets")
+    player = DebugPlayer(player)
+    if player == nil then return end
+    local leash = player.components and player.components.petleash
+    local parts = {}
+    for pet in pairs(leash ~= nil and leash:GetPets() or {}) do
+        local info = PET_BENEFITS[pet.prefab]
+        if info ~= nil then
+            local owned = GetPetOwner(pet) == player
+            local perish = pet.components and pet.components.perishable
+            local fullness = perish and perish:GetPercent()
+            local active = owned and (not info.gated or IsPetSatiated(pet))
+            local name = string.gsub(pet.prefab, "^critter_", "")
+            local state = not owned and "NOT OWNED" or (active and "ON" or "OFF")
+            GLOBAL.table.insert(parts, name .. " " .. state .. " | " ..
+                (fullness and string.format("%.0f%% fed", fullness*100) or "n/a") ..
+                " | " .. info.label)
         end
     end
-
-    -- Compact single-bubble version for in-game announce mode.
-    local say_msg = header
-    if #summary_parts > 0 then
-        say_msg = say_msg .. " | " .. table.concat(summary_parts, " ")
-    end
-    BetterPetDebugSay(player, say_msg)
+    GLOBAL.table.sort(parts)
+    DebugOutput(player, #parts > 0 and GLOBAL.table.concat(parts, "\n") or "No critters owned.")
 end
 
 GLOBAL.BetterPetDebugStatus = BetterPetDebugStatus
 GLOBAL.c_betterpet_status = BetterPetDebugStatus
 GLOBAL.c_loyalcritters_status = BetterPetDebugStatus
+GLOBAL.c_lc = BetterPetDebugStatus
 
 AddPlayerPostInit(ConfigurePeeperVision)
 local Nutrition = require("loyalcritters/nutrition")
@@ -444,14 +397,39 @@ AddPlayerPostInit(function(player)
         player:DoTaskInTime(0, function(inst) Nutrition.InstallPlayer(inst, GetPetOwner) end)
     end
 end)
-local Aggro = require("loyalcritters/aggro")
 Aggro.Install(AddPrefabPostInit, GetPetOwner, IsMasterSim, GLOBAL)
-GLOBAL.c_loyalcritters_aggro = function()
-    if not IsMasterSim() then return end
-    local player = GLOBAL.ConsoleCommandPlayer()
+GLOBAL.c_lc_aggro = function()
+    local player = DebugPlayer()
     if player == nil then return end
     local active = Aggro.HasFedBulbin(player, GetPetOwner)
-    local message = "Bulbin: " .. (active and "ACTIVE (TEST radius x0.1)" or "OFF (vanilla radius)")
-    print("[Loyal Critters Debug] " .. message)
-    BetterPetDebugSay(player, message)
+    local watch = player._lc_aggro_watch
+    local status = active and "ON (TEST x0.1)" or "OFF (x1.0)"
+    if watch == nil then
+        DebugOutput(player, "Bulbin " .. status .. " | Watch off")
+        return
+    end
+    local last = watch.last
+    if last == nil then
+        DebugOutput(player, "Bulbin " .. status .. " | No eligible search observed")
+        return
+    end
+    local line = string.format("%s: %.1f / %.1f (base %.1f) | %s",
+        last.enemy or "enemy", last.distance, last.effective, last.base,
+        last.allowed and "PASS" or "BLOCK")
+    print(string.format("[Loyal Critters Debug] aggro samples=%d enemy=%s guid=%s sample_age=%.1fs active_at_sample=%s",
+        watch.count, last.enemy or "?", tostring(last.guid), GetTime()-last.time, tostring(last.active)))
+    DebugOutput(player, "Bulbin NOW " .. status .. "\nLAST: " .. line)
+end
+GLOBAL.c_loyalcritters_aggro = GLOBAL.c_lc_aggro
+GLOBAL.c_lc_watch = function(enabled)
+    local player = DebugPlayer()
+    if player == nil then return end
+    player._lc_aggro_watch = enabled == false and nil or {count=0}
+    if enabled == false then player._lc_aggro_watch = nil end
+    DebugOutput(player, enabled == false and "Aggro watch OFF" or "Aggro watch ON (reset)")
+end
+GLOBAL.c_lc_help = function()
+    local player = DebugPlayer()
+    if player == nil then return end
+    DebugOutput(player, "c_lc() status | c_lc_watch() start/reset\nc_lc_aggro() result | c_lc_watch(false) stop")
 end
