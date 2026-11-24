@@ -18,7 +18,7 @@ function M.Pulse(pet, ownerof, find, now)
             and not target:HasTag("playerghost") and target.components.locomotor ~= nil
             and (target.components.health == nil or not target.components.health:IsDead()) then
             target._loyalcritters_repellent = {source = pet, expires = now + DURATION}
-            if target.brain ~= nil then target.brain:ForceUpdate() end
+            if target.brain ~= nil and target.brain.ForceUpdate ~= nil then target.brain:ForceUpdate() end
         end
     end
 end
@@ -33,7 +33,12 @@ function M.GetSource(target, ownerof, now)
 end
 
 function M.Install(addprefab, addbrain, ownerof, ismaster)
-    local RunAway = require("behaviours/runaway")
+    local loaded = require("behaviours/runaway")
+    local RunAway = (type(loaded) == "table" or type(loaded) == "function") and loaded or _G.RunAway
+    if type(RunAway) ~= "table" and type(RunAway) ~= "function" then
+        print("[Loyal Critters] RunAway unavailable; Bulbin repellent disabled")
+        return
+    end
     for _, name in ipairs(BRAINS) do
         addbrain(name, function(brain)
             local inst = brain.inst
