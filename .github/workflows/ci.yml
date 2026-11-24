@@ -47,6 +47,9 @@ jobs:
       - name: Run lighting regression tests
         run: lua5.1 tests/lighting_spec.lua
 
+      - name: Guard against obsolete prefab overrides
+        run: lua5.1 tests/critter_skin_spec.lua
+
       - name: Check release metadata
         shell: bash
         run: |
