@@ -44,6 +44,9 @@ jobs:
       - name: Run Peeper camera regression tests
         run: lua5.1 tests/camera_spec.lua
 
+      - name: Run lighting regression tests
+        run: lua5.1 tests/lighting_spec.lua
+
       - name: Check release metadata
         shell: bash
         run: |
