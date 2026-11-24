@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.8.0-beta.1 - Vanilla compatibility and new critters
+
+- Development test build; not published to Workshop.
+- Delegate critter prefab creation and skin selection to vanilla DST.
+- Eets: +20% positive food sanity while fed, owner only.
+- Bulbin: repel five pest types for 3 seconds every 15 seconds while fed, within 8 units.
+- Disable player-only support on Pearl adoption; release Lamb contents on confirmed NPC adoption.
+- Refactor ownership, camera, light and critter extensions; add regression tests.
+- Actual game and multiplayer validation pending; repellent visual effect pending.
+
 ## 1.7.4 - Critter skin selection fix
 
 - Fixed Critter Lab adoptions ignoring the selected skin and spawning the basic
