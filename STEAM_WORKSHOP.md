@@ -61,3 +61,6 @@ https://github.com/dbilici/dst-loyal-critters
 [*]Pearl adoption and owner-only benefits.
 [*]Camera, light and inventory maintenance.
 [/list]
+
+
+Bulbin — **Odor Masking:** while fed, prevents meat-triggered Bunnyman target acquisition for its owner. Other hostility and retaliation remain unchanged. Debug: `c_lc_watch()` then `c_lc_odor()`.
