@@ -347,7 +347,7 @@ local PET_BENEFITS = {
     critter_lunarmothling = { label = "light",            gated = false },
     critter_lamb          = { label = "storage",          gated = false },
     critter_perdling      = { label = "-hunger drain",    gated = true },
-    critter_bulbin        = { label = "-90% detection radius (TEST)", gated = true },
+    critter_bulbin        = { label = "-20% detection | Meat masking", gated = true },
     critter_eets          = { label = "+20% food sanity", gated = true },
 }
 
@@ -403,7 +403,7 @@ GLOBAL.c_lc_aggro = function()
     if player == nil then return end
     local active = Aggro.HasFedBulbin(player, GetPetOwner)
     local watch = player._lc_aggro_watch
-    local status = active and "ON (TEST x0.1)" or "OFF (x1.0)"
+    local status = active and "ON (x0.8)" or "OFF (x1.0)"
     if watch == nil then
         DebugOutput(player, "Bulbin " .. status .. " | Watch off")
         return
@@ -421,6 +421,15 @@ GLOBAL.c_lc_aggro = function()
     DebugOutput(player, "Bulbin NOW " .. status .. "\nLAST: " .. line)
 end
 GLOBAL.c_loyalcritters_aggro = GLOBAL.c_lc_aggro
+GLOBAL.c_lc_odor = function()
+    local player = DebugPlayer()
+    if player == nil then return end
+    local active = Aggro.HasFedBulbin(player, GetPetOwner)
+    local watch = player._lc_aggro_watch
+    local sample = watch and watch.odor
+    local result = sample and (sample.masked and "MEAT MASKED" or "VANILLA TARGET") or "No eligible Bunnyman search observed"
+    DebugOutput(player, "Odor Masking NOW " .. (active and "ON" or "OFF") .. "\nLAST: " .. result)
+end
 GLOBAL.c_lc_watch = function(enabled)
     local player = DebugPlayer()
     if player == nil then return end
@@ -431,5 +440,5 @@ end
 GLOBAL.c_lc_help = function()
     local player = DebugPlayer()
     if player == nil then return end
-    DebugOutput(player, "c_lc() status | c_lc_watch() start/reset\nc_lc_aggro() result | c_lc_watch(false) stop")
+    DebugOutput(player, "c_lc() status | c_lc_watch() start/reset\nc_lc_aggro() | c_lc_odor() | c_lc_watch(false) stop")
 end
