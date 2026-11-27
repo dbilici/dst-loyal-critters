@@ -43,7 +43,7 @@ percent=1
 Aggro.Wrap(combat,ownerof,env)
 Aggro.Wrap(combat,ownerof,env)
 assert(combat.targetfn(inst)==other)
-distance=1
+distance=8
 assert(combat.targetfn(inst)==player)
 distance=9
 percent=.5
@@ -62,5 +62,24 @@ inst.HasTag=function() return false end
 local broken={targetfn=function() error("test") end}
 Aggro.Wrap(broken,ownerof,env)
 assert(not pcall(broken.targetfn,inst))
+assert(env.FindEntity==original)
+local bunny = {targetfn=function(i) return env.FindEntity(i,10,function() return true end),true end}
+owner=player
+percent=1
+Aggro.WrapBunnyman(bunny,ownerof,env)
+assert(bunny.targetfn(inst)==other)
+percent=.5
+assert(bunny.targetfn(inst)==player)
+percent=1
+owner=nil
+assert(bunny.targetfn(inst)==player)
+owner=player
+for _, tag in ipairs({"monster","wonkey","pirate"}) do
+    player.HasTag=function(_,t) return t=="player" or t==tag end
+    assert(bunny.targetfn(inst)==player)
+end
+player.HasTag=function(_,t) return t=="player" end
+bunny.target=player
+assert(bunny.targetfn(inst)==player)
 assert(env.FindEntity==original)
 print("new_critter_spec: OK")
