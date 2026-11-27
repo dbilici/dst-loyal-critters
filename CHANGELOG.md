@@ -2,6 +2,10 @@
 
 ## 1.8.0-beta.2 - Repulsive Presence
 
+- Add Odor Masking: fed Bulbin prevents meat-triggered Bunnyman targeting for its owner, preserving other hostility and retaliation.
+- Restore production detection multiplier to 0.8 after manual testing.
+- Add c_lc_odor() diagnostic; in-game odor validation pending.
+
 - Replace Bulbin's periodic fear effect with 20% shorter detection distance for supported idle enemy searches while fed.
 - Initial coverage: hounds, spiders, bees, frogs and mosquitoes. Existing combat targets, retaliation and bosses are unaffected by this hook.
 - Remove old repellent brain hooks; correct Eets debug label.
