@@ -17,7 +17,7 @@ description = "Modernized loyal critter support for Don't Starve Together.\n\n".
 "- Player stat buffs are owner-only; nearby players may benefit indirectly from light.\n"..
 "- Optional Debug Mode provides pet status and aggro/odor diagnostics."
 author = "k0za1ak"
-version = "1.8.0-rc.1"
+version = "1.8.0"
 forumthread = ""
 api_version = 10
 dst_compatible = true
