@@ -20,14 +20,16 @@ function M.AllowCandidate(inst, candidate, radius, ownerof)
     if not candidate:HasTag("player") then return true end
     local active = M.HasFedBulbin(candidate, ownerof)
     local effective = radius * (active and M.MULTIPLIER or 1)
-    local distance = math.sqrt(inst:GetDistanceSqToInst(candidate))
-    local allowed = not active or distance <= effective
+    local watching = candidate._lc_aggro_watch
+    if not active and not watching then return true end
+    local distsq = inst:GetDistanceSqToInst(candidate)
+    local allowed = not active or distsq <= effective * effective
     -- Last real search decision, recorded only for explicitly watched players.
     if candidate._lc_aggro_watch then
         local stats = candidate._lc_aggro_watch
         stats.count = stats.count + 1
         stats.last = { enemy = inst.prefab, guid = inst.GUID, base = radius,
-            effective = effective, distance = distance, active = active, allowed = allowed,
+            effective = effective, distance = math.sqrt(distsq), active = active, allowed = allowed,
             time = GetTime() }
     end
     return allowed
