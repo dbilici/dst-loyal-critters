@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.8.0-rc.1 - Vanilla compatibility and new critters
+## 1.8.0 - Vanilla compatibility and new critters
 
 - Extend vanilla critters without replacing their prefab or skin handling.
 - Eets: +20% positive food sanity while fed.
@@ -8,7 +8,7 @@
 - Disable player-only benefits on Pearl adoption; empty Lamb storage on confirmed NPC adoption.
 - Refactor ownership, camera, lighting and critter extensions.
 - Add short in-game debug commands and optional target-search sampling.
-- Bulbin and debug behavior manually tested; final Pearl save/load and multiplayer regression checks pending.
+- Bulbin, Eets, Lamb, debug commands and Pearl adoption/save-load manually reported successful. Final two-player isolation and reconnect regression checks remain pending.
 
 ## 1.7.4 - Critter skin selection fix
 
