@@ -3,6 +3,7 @@ description = "Modernized loyal critter support for Don't Starve Together.\n\n".
 "Player stat support affects the OWNER ONLY while the relevant pet is fed. Bulbin reduces supported enemy detection distance for its owner. Lamb storage and themed light pets remain available independently of hunger.\n\n"..
 "Changes:\n"..
 "- Eets: 20% more positive sanity from food while fed.\n"..
+"- Bulbin: Odor Masking prevents meat-triggered Bunnyman targeting while fed.\n"..
 "- Bulbin: Repulsive Presence: 20% shorter detection distance for its owner while fed (supported hounds, spiders, bees, frogs and mosquitoes).\n"..
 "- Supports vanilla critters and Pearl adoption.\n"..
 "- Puppy: 1.2x damage buff to the owner while the puppy is fed.\n"..
@@ -43,7 +44,7 @@ configuration_options =
     {
         name = "betterpet_debug",
         label = "Debug Mode",
-        hover = "Debug commands: c_lc(), c_lc_aggro(), c_lc_watch(), c_lc_help().",
+        hover = "Debug commands: c_lc(), c_lc_aggro(), c_lc_odor(), c_lc_watch(), c_lc_help().",
         options =
         {
             { description = "Off", data = "off", hover = "No automatic debug output; explicit commands still print to server log." },
