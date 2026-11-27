@@ -46,14 +46,14 @@ Based on [url=https://steamcommunity.com/sharedfiles/filedetails/?id=849986686]B
 
 The original item was last updated in 2017 and is no longer compatible with the current DST critter roster. This modernization is maintained by [b]k0za1ak[/b] under [url=https://support.klei.com/hc/en-us/articles/360029557172-I-am-Interested-in-Modding-Don-t-Starve]Klei's abandoned-mod guidance[/url], with owner-only benefit rules, current critter support, revised balance, and diagnostics. If the original author requests removal or different attribution, this item will be updated or removed.
 
-Version: 1.8.0-rc.1 (draft, not published)
+Version: 1.8.0
 
 Source code and bug reports:
 https://github.com/dbilici/dst-loyal-critters
 
 ## Change notes
 
-[h1]1.8.0-rc.1 (draft)[/h1]
+[h1]1.8.0[/h1]
 
 [list]
 [*]Vanilla prefab compatibility, Bulbin and Eets support.
