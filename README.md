@@ -76,3 +76,6 @@ Common macOS location:
 - Keep Workshop metadata in this README.
 - Keep the Steam Workshop page text in `STEAM_WORKSHOP.md`.
 - Tag GitHub releases when publishing Workshop updates.
+
+
+Bulbin — **Odor Masking:** while fed, prevents meat-triggered Bunnyman target acquisition for its owner. Other hostility and retaliation remain unchanged. Debug: `c_lc_watch()` then `c_lc_odor()`.
