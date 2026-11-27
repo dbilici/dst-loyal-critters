@@ -22,10 +22,10 @@ player stat support depends on satiation; Bulbin's support is owner-specific.
 [*][b]Lamb:[/b] owner-only 2 x 2 mini chest. Stored food spoils 1.5x faster. Storage is not hunger-gated.
 [*][b]Dragonling and Mothling:[/b] themed light only, with closer following so the light stays useful. Light is not hunger-gated.
 [*][b]Eets:[/b] 20% more positive food sanity for its owner while fed.
-[*][b]Bulbin:[/b] Repulsive Presence: 20% shorter detection distance for its owner while fed (supported hounds, spiders, bees, frogs and mosquitoes).
+[*][b]Bulbin:[/b] Repulsive Presence: 20% shorter detection distance for its owner while fed (supported hounds, spiders, bees, frogs and mosquitoes). Odor Masking also prevents meat-triggered Bunnyman targeting; other hostility and retaliation remain unchanged.
 [/list]
 
-Player stat benefits are owner-only. Light and pest repellent can help nearby players indirectly.
+Player stat benefits are owner-only. Light can help nearby players indirectly.
 
 [h2]Configuration and diagnostics[/h2]
 
@@ -36,8 +36,7 @@ new adoptions but does not remove a critter Walter already owns.
 
 Debug Mode defaults to [b]Off[/b] and can use [b]Log only[/b] or
 [b]Chat + log[/b]. Run [code]c_loyalcritters_status()[/code] in the console to
-report the chosen player, regular pet capacity, owned pets, hunger percentages,
-fed state, active benefits, and Peeper camera state.
+report owned pets, fullness and benefit status. Use [code]c_lc_help()[/code] for additional diagnostics.
 
 The server and every joining player must install and enable the same version.
 
@@ -47,20 +46,20 @@ Based on [url=https://steamcommunity.com/sharedfiles/filedetails/?id=849986686]B
 
 The original item was last updated in 2017 and is no longer compatible with the current DST critter roster. This modernization is maintained by [b]k0za1ak[/b] under [url=https://support.klei.com/hc/en-us/articles/360029557172-I-am-Interested-in-Modding-Don-t-Starve]Klei's abandoned-mod guidance[/url], with owner-only benefit rules, current critter support, revised balance, and diagnostics. If the original author requests removal or different attribution, this item will be updated or removed.
 
-Version: 1.8.0-beta.2 (draft, not published)
+Version: 1.8.0-rc.1 (draft, not published)
 
 Source code and bug reports:
 https://github.com/dbilici/dst-loyal-critters
 
 ## Change notes
 
-[h1]1.8.0-beta.2 (draft)[/h1]
+[h1]1.8.0-rc.1 (draft)[/h1]
 
 [list]
 [*]Vanilla prefab compatibility, Bulbin and Eets support.
 [*]Pearl adoption and owner-only benefits.
-[*]Camera, light and inventory maintenance.
+[*]Bulbin: Repulsive Presence and Odor Masking.
+[*]Eets: positive food sanity bonus.
+[*]Concise in-game diagnostics and camera, light and inventory maintenance.
 [/list]
 
-
-Bulbin — **Odor Masking:** while fed, prevents meat-triggered Bunnyman target acquisition for its owner. Other hostility and retaliation remain unchanged. Debug: `c_lc_watch()` then `c_lc_odor()`.
