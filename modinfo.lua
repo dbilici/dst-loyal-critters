@@ -15,9 +15,9 @@ description = "Modernized loyal critter support for Don't Starve Together.\n\n".
 "- Dragonling and Mothling give ONLY their themed light (no temperature effects). Light pets have shorter sleep distances.\n"..
 "- Optional Walter support lets him adopt one critter alongside Woby. Disabled by default.\n"..
 "- Player stat buffs are owner-only; nearby players may benefit indirectly from light.\n"..
-"- Optional Debug Mode helps test owner support and Peeper vision state."
+"- Optional Debug Mode provides pet status and aggro/odor diagnostics."
 author = "k0za1ak"
-version = "1.8.0-beta.2"
+version = "1.8.0-rc.1"
 forumthread = ""
 api_version = 10
 dst_compatible = true
