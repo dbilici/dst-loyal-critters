@@ -16,7 +16,7 @@ Public Don't Starve Together mod that modernizes critter benefits so they apply 
 - Source repository: https://github.com/dbilici/dst-loyal-critters
 - Repository folder: `dst-loyal-critters`
 - Published Workshop version: `1.8.0` (confirmed by maintainer)
-- GitHub release: `v1.8.0` tag and release pending
+- GitHub release: [`v1.8.0`](https://github.com/dbilici/dst-loyal-critters/releases/tag/v1.8.0)
 - Manual validation: Bulbin, Eets, Lamb, debug commands and Pearl adoption/save-load reported successful; final two-player isolation and reconnect tests pending.
 
 ## Features
