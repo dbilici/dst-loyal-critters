@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.8.0 - Vanilla compatibility and new critters
+
+- Extend vanilla critters without replacing their prefab or skin handling.
+- Eets: +20% positive food sanity while fed.
+- Bulbin: Repulsive Presence reduces supported idle enemy detection radius by 20%; Odor Masking prevents meat-triggered Bunnyman targeting. Existing targets and retaliation are preserved.
+- Disable player-only benefits on Pearl adoption; empty Lamb storage on confirmed NPC adoption.
+- Refactor ownership, camera, lighting and critter extensions.
+- Add short in-game debug commands and optional target-search sampling.
+- Bulbin, Eets, Lamb, debug commands and Pearl adoption/save-load manually reported successful. Final two-player isolation and reconnect regression checks remain pending.
+
 ## 1.7.4 - Critter skin selection fix
 
 - Fixed Critter Lab adoptions ignoring the selected skin and spawning the basic

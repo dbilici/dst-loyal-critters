@@ -15,11 +15,17 @@ Public Don't Starve Together mod that modernizes critter benefits so they apply 
 - Original Workshop item: https://steamcommunity.com/sharedfiles/filedetails/?id=849986686
 - Source repository: https://github.com/dbilici/dst-loyal-critters
 - Repository folder: `dst-loyal-critters`
-- Version: `1.7.4`
+- Published version: `1.7.4`
+- Prepared release: `1.8.0` (Workshop publication pending)
+- Manual validation: Bulbin, Eets, Lamb, debug commands and Pearl adoption/save-load reported successful; final two-player isolation and reconnect tests pending.
 
 ## Features
 
-- Owner-only pet benefits; pets no longer buff nearby teammates.
+- Owner-only player stat benefits; nearby players can benefit indirectly from light.
+- Eets: +20% positive food sanity while fed.
+- Bulbin: Repulsive Presence: 20% shorter detection distance for its owner while fed (supported hounds, spiders, bees, frogs and mosquitoes).
+- Bulbin: Odor Masking prevents meat-triggered Bunnyman targeting while fed; other hostility and retaliation remain unchanged.
+- Vanilla prefab/skin handling and Pearl adoption compatibility.
 - Puppy, Kitten, Perdling, Glomling, and Friendly Peeper support stays active
   only while the corresponding pet is fed.
 - Puppy gives owner damage support.
@@ -47,14 +53,18 @@ option prevents new adoptions but does not remove a critter Walter already owns.
 
 ## Diagnostics
 
-Use `Log only` during normal troubleshooting and `Chat + log` for a short live
-test. The following console command prints the selected player's Peeper state,
-camera limit, regular pet capacity, owned pets, hunger percentages, fed state,
-and active benefits:
+Use Remote console commands. Log only writes diagnostics to the server log; Chat + log also shows concise in-game messages. Explicit commands print even when automatic debug is off.
 
-```text
-c_loyalcritters_status()
-```
+| Command | Purpose |
+| --- | --- |
+| `c_lc()` | Owned pets, fullness and benefit status |
+| `c_lc_watch()` | Start/reset real target-search sampling |
+| `c_lc_aggro()` | Current Bulbin state and last eligible search |
+| `c_lc_odor()` | Current masking state and last Bunnyman search |
+| `c_lc_watch(false)` | Stop sampling |
+| `c_lc_help()` | Command help |
+
+Old status and aggro command aliases remain available. Samples are historical; reset the watch between test cases.
 
 ## Install Locally
 
@@ -72,3 +82,4 @@ Common macOS location:
 - Keep Workshop metadata in this README.
 - Keep the Steam Workshop page text in `STEAM_WORKSHOP.md`.
 - Tag GitHub releases when publishing Workshop updates.
+

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/critter-compatibility
   pull_request:
   workflow_dispatch:
 
@@ -36,6 +37,21 @@ jobs:
 
       - name: Run Walter critter regression test
         run: lua5.1 tests/walter_critter_spec.lua
+
+      - name: Run critter compatibility regression tests
+        run: lua5.1 tests/critter_compatibility_spec.lua
+
+      - name: Run Peeper camera regression tests
+        run: lua5.1 tests/camera_spec.lua
+
+      - name: Run lighting regression tests
+        run: lua5.1 tests/lighting_spec.lua
+
+      - name: Guard against obsolete prefab overrides
+        run: lua5.1 tests/critter_skin_spec.lua
+
+      - name: Run new critter ability tests
+        run: lua5.1 tests/new_critter_spec.lua
 
       - name: Check release metadata
         shell: bash

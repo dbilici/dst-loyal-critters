@@ -1,20 +1,23 @@
 name = "Loyal Critters"
 description = "Modernized loyal critter support for Don't Starve Together.\n\n"..
-"Pet support affects the OWNER ONLY. Puppy, Kitten, Perdling, Glomling, and Friendly Peeper support stays active while that pet is fed; distance no longer matters. Lamb storage and themed light pets remain available independently of hunger.\n\n"..
+"Player stat support affects the OWNER ONLY while the relevant pet is fed. Bulbin reduces supported enemy detection distance for its owner. Lamb storage and themed light pets remain available independently of hunger.\n\n"..
 "Changes:\n"..
-"- Added Mothling and Friendly Peeper support.\n"..
+"- Eets: 20% more positive sanity from food while fed.\n"..
+"- Bulbin: Odor Masking prevents meat-triggered Bunnyman targeting while fed.\n"..
+"- Bulbin: Repulsive Presence: 20% shorter detection distance for its owner while fed (supported hounds, spiders, bees, frogs and mosquitoes).\n"..
+"- Supports vanilla critters and Pearl adoption.\n"..
 "- Puppy: 1.2x damage buff to the owner while the puppy is fed.\n"..
 "- Kitten: 1.2x speed buff to the owner while the kitten is fed.\n"..
 "- Lamb: 2x2 mini chest storage; only the owner can open it, and items inside spoil 1.5x faster.\n"..
 "- Perdling: owner's hunger drains 20% slower while it is fed (replaces the old redpouch drop).\n"..
 "- Glomling: sanity aura to the owner while fed, at full strength regardless of distance.\n"..
 "- Friendly Peeper: Horizon Expandinator-style vision support. Increases the owner's maximum zoom-out while the Peeper is fed. Fixed the jarring camera-angle jump.\n"..
-"- Dragonling and Mothling give ONLY their themed light (no temperature effects). Light pets follow closer so their light is useful.\n"..
+"- Dragonling and Mothling give ONLY their themed light (no temperature effects). Light pets have shorter sleep distances.\n"..
 "- Optional Walter support lets him adopt one critter alongside Woby. Disabled by default.\n"..
-"- Pets no longer affect other players in any way. Teammate/fed-team support has been removed.\n"..
-"- Optional Debug Mode helps test owner support and Peeper vision state."
+"- Player stat buffs are owner-only; nearby players may benefit indirectly from light.\n"..
+"- Optional Debug Mode provides pet status and aggro/odor diagnostics."
 author = "k0za1ak"
-version = "1.7.4"
+version = "1.8.0"
 forumthread = ""
 api_version = 10
 dst_compatible = true
@@ -41,10 +44,10 @@ configuration_options =
     {
         name = "betterpet_debug",
         label = "Debug Mode",
-        hover = "Testing helper for Loyal Critters. Shows owner support and Peeper vision state changes.",
+        hover = "Debug commands: c_lc(), c_lc_aggro(), c_lc_odor(), c_lc_watch(), c_lc_help().",
         options =
         {
-            { description = "Off", data = "off", hover = "No debug output." },
+            { description = "Off", data = "off", hover = "No automatic debug output; explicit commands still print to server log." },
             { description = "Log only", data = "log", hover = "Print Loyal Critters debug messages to the server log." },
             { description = "Chat + log", data = "announce", hover = "Print to log and show short in-game test messages." },
         },

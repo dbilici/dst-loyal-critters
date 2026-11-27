@@ -1,7 +1,4 @@
-PrefabFiles = {
-    "critters",
-}
-
+-- Extend vanilla critters instead of replacing their prefab definitions.
 local GLOBAL = GLOBAL
 local Vector3 = GLOBAL.Vector3
 local TUNING = GLOBAL.TUNING
@@ -23,7 +20,7 @@ local WalterCritter = require("loyalcritters/walter")
 
 local GetModConfigData = GetModConfigData
 
-local VERSION = "1.7.4"
+local VERSION = "1.8.0"
 local ALLOW_WALTER_CRITTER = GetModConfigData ~= nil and GetModConfigData("allow_walter_critter") == true
 local DEBUG_MODE = GetModConfigData ~= nil and GetModConfigData("betterpet_debug") or "off"
 local DEBUG_LOG = DEBUG_MODE == true or DEBUG_MODE == "log" or DEBUG_MODE == "announce"
@@ -86,13 +83,8 @@ local CRITTER_PREFABS = {
     "critter_glomling",
     "critter_lunarmothling",
     "critter_eyeofterror",
-}
-
-local LIGHT_PREFABS = {
-    "critter_dragonling",
-    "critter_lunarmothling",
-    "critterbuff_lunarmoth",
-    "critter_eyeofterror",
+    "critter_bulbin",
+    "critter_eets",
 }
 
 local function IsMasterSim()
@@ -160,59 +152,16 @@ ConfigureLambContainer()
 -------------------------------------------------------------------------------
 -- Critter follow distance
 
-local balanced_critter_brain = nil
-local brain_load_attempted = false
-
-local function GetBalancedCritterBrain()
-    if not brain_load_attempted then
-        brain_load_attempted = true
-
-        if pcall ~= nil then
-            local ok, brain = pcall(require, "brains/loyalcritters_crittersbrain")
-            if ok then
-                balanced_critter_brain = brain
-            else
-                print("[Loyal Critters] Could not load balanced critter brain: " .. tostring(brain))
-            end
-        else
-            -- DST normally exposes pcall through GLOBAL, but keep this fallback so the
-            -- failure mode is a clear require error instead of a nil global call.
-            balanced_critter_brain = require("brains/loyalcritters_crittersbrain")
-        end
-    end
-
-    return balanced_critter_brain
-end
-
-local function ConfigureCritterBrain(inst)
-    if not IsMasterSim() then
-        return
-    end
-
-    local brain = GetBalancedCritterBrain()
-    if brain ~= nil then
-        inst:SetBrain(brain)
-    end
-end
-
-for _, prefab in ipairs(CRITTER_PREFABS) do
-    AddPrefabPostInit(prefab, ConfigureCritterBrain)
-end
-
--------------------------------------------------------------------------------
 -- Ownership + satiation helpers
 --
 -- Design: a pet only benefits its own owner, and only while the pet is
 -- fed/satiated. Distance/radius no longer matter. Satiation is read from
 -- the critter's perishable hunger meter (fed = full, then slowly empties).
 
-local function GetPetOwner(pet)
-    return pet ~= nil
-        and pet.components ~= nil
-        and pet.components.follower ~= nil
-        and pet.components.follower.leader
-        or nil
-end
+local GetPetOwner = require("loyalcritters/ownership").GetPetOwner
+
+require("loyalcritters/extensions").Install(AddPrefabPostInit, AddBrainPostInit,
+    GetPetOwner, IsMasterSim)
 
 local function IsPetSatiated(pet)
     return pet ~= nil
@@ -272,114 +221,7 @@ AddPrefabPostInit("critter_glomling", ConfigureGlomlingSanityAura)
 -------------------------------------------------------------------------------
 -- Light balance
 
-local LIGHT_SETTINGS = {
-    critter_dragonling = {
-        colour = { 1.00, 0.35, 0.12 }, -- warm orange-red
-        radius = 1.75,
-        intensity = 0.55,
-        falloff = 0.75,
-    },
-
-    critter_lunarmothling = {
-        colour = { 1.00, 1.00, 1.00 }, -- clean white moth glow
-        radius = 1.65,
-        intensity = 0.50,
-        falloff = 0.80,
-    },
-
-    -- Mothling may use this helper light/buff internally, so keep it white too.
-    critterbuff_lunarmoth = {
-        colour = { 1.00, 1.00, 1.00 },
-        radius = 1.65,
-        intensity = 0.50,
-        falloff = 0.80,
-    },
-
-    critter_eyeofterror = {
-        colour = { 0.10, 0.35, 1.00 }, -- creepy cold blue
-        radius = 1.60,
-        intensity = 0.50,
-        falloff = 0.95,
-    },
-}
-
-local function ApplyLightSettings(inst, settings)
-    settings = settings or (inst ~= nil and LIGHT_SETTINGS[inst.prefab] or nil)
-
-    if inst == nil or settings == nil then
-        return
-    end
-
-    if inst.Light == nil and inst.entity ~= nil then
-        inst.entity:AddLight()
-    end
-
-    if inst.Light == nil then
-        return
-    end
-
-    local light = inst.Light
-    local colour = settings.colour
-
-    if colour ~= nil and light.SetColour ~= nil then
-        light:SetColour(colour[1], colour[2], colour[3])
-    end
-
-    if settings.radius ~= nil and light.SetRadius ~= nil then
-        light:SetRadius(settings.radius)
-    end
-
-    if settings.intensity ~= nil and light.SetIntensity ~= nil then
-        light:SetIntensity(settings.intensity)
-    end
-
-    if settings.falloff ~= nil and light.SetFalloff ~= nil then
-        light:SetFalloff(settings.falloff)
-    end
-
-    if light.Enable ~= nil then
-        light:Enable(true)
-    end
-end
-
-local function ApplyOwnedLightSettings(inst)
-    local settings = inst ~= nil and LIGHT_SETTINGS[inst.prefab] or nil
-
-    ApplyLightSettings(inst, settings)
-
-    if inst ~= nil and inst.wormlight ~= nil then
-        ApplyLightSettings(inst.wormlight, settings)
-    end
-
-    if inst ~= nil and inst._special_powers ~= nil and inst._special_powers.buff ~= nil then
-        ApplyLightSettings(inst._special_powers.buff, settings)
-    end
-end
-
-local function ConfigureLightPrefab(inst)
-    inst:DoTaskInTime(0, ApplyOwnedLightSettings)
-
-    inst:ListenForEvent("perishchange", function()
-        inst:DoTaskInTime(0, ApplyOwnedLightSettings)
-    end)
-
-    if inst.EnableLight ~= nil and inst._betterpet_enablelight == nil then
-        local original_enable_light = inst.EnableLight
-        inst._betterpet_enablelight = original_enable_light
-
-        inst.EnableLight = function(light_inst, enabled, ...)
-            original_enable_light(light_inst, enabled, ...)
-
-            if enabled ~= false then
-                light_inst:DoTaskInTime(0, ApplyOwnedLightSettings)
-            end
-        end
-    end
-end
-
-for _, prefab in ipairs(LIGHT_PREFABS) do
-    AddPrefabPostInit(prefab, ConfigureLightPrefab)
-end
+require("loyalcritters/lighting").Install(AddPrefabPostInit, IsMasterSim)
 
 -------------------------------------------------------------------------------
 -- Friendly Peeper vision support
@@ -407,7 +249,7 @@ local function PlayerHasSatiatedPeeper(player)
     for pet in pairs(player.components.petleash:GetPets()) do
         if pet ~= nil
             and pet.prefab == "critter_eyeofterror"
-            and IsPetSatiated(pet) then
+            and HasBetterPetSupportForPlayer(pet, player) then
             return true
         end
     end
@@ -453,75 +295,11 @@ local function IsLocalPlayer(player)
     return GLOBAL.ThePlayer ~= nil and player == GLOBAL.ThePlayer
 end
 
-local function SetBetterPetCameraMaxDistance(camera, max_distance)
-    if camera == nil or max_distance == nil then
-        return
-    end
-
-    camera.maxdist = max_distance
-
-    -- Only nudge the zoom *target* back into range. We intentionally do NOT
-    -- touch camera.distance directly: the FollowCamera eases distance toward
-    -- its target every frame, and snapping distance here caused the visible
-    -- camera "jump" (pitch/height are derived from the current distance).
-    if camera.distancetarget ~= nil and camera.distancetarget > max_distance then
-        camera.distancetarget = max_distance
-    end
-end
+local PeeperCamera = require("loyalcritters/camera")
 
 local function ApplyBetterPetPeeperVisionCamera(active)
-    local camera = GLOBAL.TheCamera
-    if camera == nil or camera.maxdist == nil then
-        return
-    end
-
-    if camera._betterpet_peeper_base_maxdist == nil then
-        camera._betterpet_peeper_base_maxdist = camera.maxdist
-    end
-
-    local base_maxdist = camera._betterpet_peeper_base_maxdist
-    local target_maxdist = base_maxdist + BALANCE.peeper_vision_zoom_bonus
-
-    if active then
-        local was_active = camera._betterpet_peeper_vision_active == true
-        camera._betterpet_peeper_vision_active = true
-
-        -- Do not fight dedicated camera/zoom mods. Only raise the limit when our
-        -- target is higher than the current limit.
-        if camera.maxdist < target_maxdist then
-            SetBetterPetCameraMaxDistance(camera, target_maxdist)
-            camera._betterpet_peeper_applied_maxdist = target_maxdist
-        else
-            camera._betterpet_peeper_applied_maxdist = nil
-        end
-
-        -- On the moment vision turns on (and only when we actually raised the
-        -- limit), automatically zoom the camera out toward the new range. We set
-        -- distancetarget (not distance) so the game eases the camera smoothly,
-        -- and we only ever push the view out -- never pull the player back in if
-        -- they had already zoomed out further themselves.
-        if not was_active
-            and camera._betterpet_peeper_applied_maxdist ~= nil
-            and camera.mindist ~= nil
-            and camera.distancetarget ~= nil then
-            local zoom_target = (camera.maxdist - camera.mindist) * PEEPER_VISION_ZOOM_FACTOR + camera.mindist
-            if zoom_target > camera.distancetarget then
-                camera.distancetarget = zoom_target
-            end
-        end
-    elseif camera._betterpet_peeper_vision_active then
-        camera._betterpet_peeper_vision_active = false
-
-        -- Restore only if the current value still looks like the value we applied.
-        -- This avoids lowering another zoom mod's larger limit.
-        if camera._betterpet_peeper_applied_maxdist ~= nil
-            and camera.maxdist <= camera._betterpet_peeper_applied_maxdist
-            and camera.maxdist > base_maxdist then
-            SetBetterPetCameraMaxDistance(camera, base_maxdist)
-        end
-
-        camera._betterpet_peeper_applied_maxdist = nil
-    end
+    PeeperCamera.Apply(GLOBAL.TheCamera, active, BALANCE.peeper_vision_zoom_bonus,
+        PEEPER_VISION_ZOOM_FACTOR)
 end
 
 local function UpdateLocalPeeperVisionCamera(player)
@@ -569,92 +347,101 @@ local PET_BENEFITS = {
     critter_lunarmothling = { label = "light",            gated = false },
     critter_lamb          = { label = "storage",          gated = false },
     critter_perdling      = { label = "-hunger drain",    gated = true },
+    critter_bulbin        = { label = "-20% detection | Meat masking", gated = true },
+    critter_eets          = { label = "+20% food sanity", gated = true },
 }
 
+local Aggro = require("loyalcritters/aggro")
+local function DebugPlayer(player)
+    if not IsMasterSim() then return nil end
+    return player or (GLOBAL.ConsoleCommandPlayer ~= nil and GLOBAL.ConsoleCommandPlayer() or nil)
+end
+
+local function DebugOutput(player, message)
+    print("[Loyal Critters Debug] " .. message)
+    BetterPetDebugSay(player, message)
+end
+
 local function BetterPetDebugStatus(player)
-    if not DEBUG_LOG and not DEBUG_ANNOUNCE then
-        print("[Loyal Critters Debug] Debug Mode is off. Enable it in mod configuration for live test messages.")
-    end
-
-    player = player or (GLOBAL.AllPlayers ~= nil and GLOBAL.AllPlayers[1] or nil)
-    if player == nil then
-        print("[Loyal Critters Debug] No player found for status check.")
-        return
-    end
-
-    local satiated_min = (BALANCE ~= nil and BALANCE.pet_satiated_min_perish) or 0.5
-
-    -- Header line: player-level vision state + current camera zoom limit.
-    local header = "version=" .. VERSION
-        .. ", walter_critter=" .. tostring(ALLOW_WALTER_CRITTER)
-        .. ", debug_mode=" .. tostring(DEBUG_MODE)
-        .. ", player=" .. tostring(player.name or player.prefab or player.userid or "unknown")
-        .. ", Peeper vision net=" .. tostring(GetPeeperVisionNet(player))
-    local player_petleash = player.components ~= nil and player.components.petleash or nil
-    if player_petleash ~= nil and player_petleash.GetMaxPets ~= nil then
-        header = header .. ", pet_capacity=" .. tostring(player_petleash:GetMaxPets())
-    end
-    local camera = GLOBAL.TheCamera
-    if camera ~= nil and camera.maxdist ~= nil and string ~= nil and string.format ~= nil then
-        header = header .. ", camera maxdist=" .. string.format("%.2f", camera.maxdist)
-    end
-    print("[Loyal Critters Debug] " .. header)
-
-    -- Per-pet detail. Benefits are owner-only now, so we look at THIS player's
-    -- own pets via petleash rather than scanning nearby critters.
-    local petleash = player_petleash
-    local summary_parts = {}
-
-    if petleash == nil then
-        print("[Loyal Critters Debug]   (no petleash on this player)")
-    else
-        local owns_any = false
-        for pet in pairs(petleash:GetPets()) do
-            if pet ~= nil and pet.prefab ~= nil then
-                owns_any = true
-
-                local perish = (pet.components ~= nil and pet.components.perishable ~= nil)
-                    and pet.components.perishable:GetPercent() or nil
-                local fed = perish ~= nil and perish > satiated_min
-                local perish_txt = perish ~= nil and string.format("%.0f%%", perish * 100) or "n/a"
-
-                local info = PET_BENEFITS[pet.prefab]
-                local label = info ~= nil and info.label or "?"
-                local gated = info ~= nil and info.gated or false
-
-                local state
-                if gated then
-                    state = fed and (label .. " ACTIVE") or (label .. " off (needs feeding)")
-                else
-                    state = label .. " (always on)"
-                end
-
-                print("[Loyal Critters Debug]   " .. pet.prefab
-                    .. ": hunger=" .. perish_txt
-                    .. " fed=" .. tostring(fed)
-                    .. " -> " .. state)
-
-                local short = string.gsub(pet.prefab, "^critter_", "")
-                table.insert(summary_parts, short .. "(" .. (fed and "fed" or "hungry") .. ")")
-            end
-        end
-
-        if not owns_any then
-            print("[Loyal Critters Debug]   (this player owns no pets)")
-            table.insert(summary_parts, "no pets")
+    player = DebugPlayer(player)
+    if player == nil then return end
+    local leash = player.components and player.components.petleash
+    local parts = {}
+    for pet in pairs(leash ~= nil and leash:GetPets() or {}) do
+        local info = PET_BENEFITS[pet.prefab]
+        if info ~= nil then
+            local owned = GetPetOwner(pet) == player
+            local perish = pet.components and pet.components.perishable
+            local fullness = perish and perish:GetPercent()
+            local active = owned and (not info.gated or IsPetSatiated(pet))
+            local name = string.gsub(pet.prefab, "^critter_", "")
+            local state = not owned and "NOT OWNED" or (active and "ON" or "OFF")
+            GLOBAL.table.insert(parts, name .. " " .. state .. " | " ..
+                (fullness and string.format("%.0f%% fed", fullness*100) or "n/a") ..
+                " | " .. info.label)
         end
     end
-
-    -- Compact single-bubble version for in-game announce mode.
-    local say_msg = header
-    if #summary_parts > 0 then
-        say_msg = say_msg .. " | " .. table.concat(summary_parts, " ")
-    end
-    BetterPetDebugSay(player, say_msg)
+    GLOBAL.table.sort(parts)
+    DebugOutput(player, #parts > 0 and GLOBAL.table.concat(parts, "\n") or "No critters owned.")
 end
 
 GLOBAL.BetterPetDebugStatus = BetterPetDebugStatus
 GLOBAL.c_betterpet_status = BetterPetDebugStatus
 GLOBAL.c_loyalcritters_status = BetterPetDebugStatus
+GLOBAL.c_lc = BetterPetDebugStatus
 
 AddPlayerPostInit(ConfigurePeeperVision)
+local Nutrition = require("loyalcritters/nutrition")
+AddPlayerPostInit(function(player)
+    if IsMasterSim() then
+        player:DoTaskInTime(0, function(inst) Nutrition.InstallPlayer(inst, GetPetOwner) end)
+    end
+end)
+Aggro.Install(AddPrefabPostInit, GetPetOwner, IsMasterSim, GLOBAL)
+GLOBAL.c_lc_aggro = function()
+    local player = DebugPlayer()
+    if player == nil then return end
+    local active = Aggro.HasFedBulbin(player, GetPetOwner)
+    local watch = player._lc_aggro_watch
+    local status = active and string.format("ON (x%.1f)", Aggro.MULTIPLIER) or "OFF (x1.0)"
+    if watch == nil then
+        DebugOutput(player, "Bulbin " .. status .. " | Watch off")
+        return
+    end
+    local last = watch.last
+    if last == nil then
+        DebugOutput(player, "Bulbin " .. status .. " | No eligible search observed")
+        return
+    end
+    local line = string.format("%s: %.1f / %.1f (base %.1f) | %s",
+        last.enemy or "enemy", last.distance, last.effective, last.base,
+        last.allowed and "PASS" or "BLOCK")
+    print(string.format("[Loyal Critters Debug] aggro samples=%d enemy=%s guid=%s sample_age=%.1fs active_at_sample=%s",
+        watch.count, last.enemy or "?", tostring(last.guid), GetTime()-last.time, tostring(last.active)))
+    DebugOutput(player, "Bulbin NOW " .. status .. "\nLAST: " .. line)
+end
+GLOBAL.c_loyalcritters_aggro = GLOBAL.c_lc_aggro
+GLOBAL.c_lc_odor = function()
+    local player = DebugPlayer()
+    if player == nil then return end
+    local active = Aggro.HasFedBulbin(player, GetPetOwner)
+    local watch = player._lc_aggro_watch
+    local sample = watch and watch.odor
+    local result = sample and (sample.masked and "MEAT MASKED" or "VANILLA TARGET") or "No eligible Bunnyman search observed"
+    DebugOutput(player, "Odor Masking NOW " .. (active and "ON" or "OFF") .. "\nLAST: " .. result)
+end
+GLOBAL.c_lc_watch = function(enabled)
+    local player = DebugPlayer()
+    if player == nil then return end
+    if enabled == false then
+        player._lc_aggro_watch = nil
+    else
+        player._lc_aggro_watch = {count=0}
+    end
+    DebugOutput(player, enabled == false and "Aggro watch OFF" or "Aggro watch ON (reset)")
+end
+GLOBAL.c_lc_help = function()
+    local player = DebugPlayer()
+    if player == nil then return end
+    DebugOutput(player, "c_lc() status | c_lc_watch() start/reset\nc_lc_aggro() | c_lc_odor() | c_lc_watch(false) stop")
+end
