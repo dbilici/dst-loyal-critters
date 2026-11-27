@@ -1,25 +1,14 @@
 # Changelog
 
-## 1.8.0-beta.2 - Repulsive Presence
+## 1.8.0-rc.1 - Vanilla compatibility and new critters
 
-- Add Odor Masking: fed Bulbin prevents meat-triggered Bunnyman targeting for its owner, preserving other hostility and retaliation.
-- Restore production detection multiplier to 0.8 after manual testing.
-- Add c_lc_odor() diagnostic; in-game odor validation pending.
-
-- Replace Bulbin's periodic fear effect with 20% shorter detection distance for supported idle enemy searches while fed.
-- Initial coverage: hounds, spiders, bees, frogs and mosquitoes. Existing combat targets, retaliation and bosses are unaffected by this hook.
-- Remove old repellent brain hooks; correct Eets debug label.
-- In-game validation pending.
-
-## 1.8.0-beta.1 - Vanilla compatibility and new critters
-
-- Development test build; not published to Workshop.
-- Delegate critter prefab creation and skin selection to vanilla DST.
-- Eets: +20% positive food sanity while fed, owner only.
-- Bulbin: repel five pest types for 3 seconds every 15 seconds while fed, within 8 units.
-- Disable player-only support on Pearl adoption; release Lamb contents on confirmed NPC adoption.
-- Refactor ownership, camera, light and critter extensions; add regression tests.
-- Actual game and multiplayer validation pending; repellent visual effect pending.
+- Extend vanilla critters without replacing their prefab or skin handling.
+- Eets: +20% positive food sanity while fed.
+- Bulbin: Repulsive Presence reduces supported idle enemy detection radius by 20%; Odor Masking prevents meat-triggered Bunnyman targeting. Existing targets and retaliation are preserved.
+- Disable player-only benefits on Pearl adoption; empty Lamb storage on confirmed NPC adoption.
+- Refactor ownership, camera, lighting and critter extensions.
+- Add short in-game debug commands and optional target-search sampling.
+- Bulbin and debug behavior manually tested; final Pearl save/load and multiplayer regression checks pending.
 
 ## 1.7.4 - Critter skin selection fix
 
