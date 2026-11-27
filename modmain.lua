@@ -20,7 +20,7 @@ local WalterCritter = require("loyalcritters/walter")
 
 local GetModConfigData = GetModConfigData
 
-local VERSION = "1.8.0-beta.2"
+local VERSION = "1.8.0-rc.1"
 local ALLOW_WALTER_CRITTER = GetModConfigData ~= nil and GetModConfigData("allow_walter_critter") == true
 local DEBUG_MODE = GetModConfigData ~= nil and GetModConfigData("betterpet_debug") or "off"
 local DEBUG_LOG = DEBUG_MODE == true or DEBUG_MODE == "log" or DEBUG_MODE == "announce"
@@ -403,7 +403,7 @@ GLOBAL.c_lc_aggro = function()
     if player == nil then return end
     local active = Aggro.HasFedBulbin(player, GetPetOwner)
     local watch = player._lc_aggro_watch
-    local status = active and "ON (x0.8)" or "OFF (x1.0)"
+    local status = active and string.format("ON (x%.1f)", Aggro.MULTIPLIER) or "OFF (x1.0)"
     if watch == nil then
         DebugOutput(player, "Bulbin " .. status .. " | Watch off")
         return
@@ -433,8 +433,11 @@ end
 GLOBAL.c_lc_watch = function(enabled)
     local player = DebugPlayer()
     if player == nil then return end
-    player._lc_aggro_watch = enabled == false and nil or {count=0}
-    if enabled == false then player._lc_aggro_watch = nil end
+    if enabled == false then
+        player._lc_aggro_watch = nil
+    else
+        player._lc_aggro_watch = {count=0}
+    end
     DebugOutput(player, enabled == false and "Aggro watch OFF" or "Aggro watch ON (reset)")
 end
 GLOBAL.c_lc_help = function()
